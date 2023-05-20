@@ -1,0 +1,100 @@
+@import "variables";
+
+@font-face {
+  font-family: "Quicksand";
+  font-weight: 500;
+  src: local("Quicksand"), url(./fonts/Quicksand-Bold.ttf) format("truetype");
+  src: local("Quicksand"), url(./fonts/Quicksand-Light.ttf) format("truetype");
+  src: local("Quicksand"), url(./fonts/Quicksand-Medium.ttf) format("truetype");
+  src: local("Quicksand"), url(./fonts/Quicksand-Regular.ttf) format("truetype");
+  src: local("Quicksand"),
+    url(./fonts/Quicksand-SemiBold.ttf) format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif !important;
+}
+
+*::selection {
+  background-color: $text-selection;
+  color: white;
+}
+
+input::placeholder {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+}
+
+input {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: $text-title;
+  transition: all 0.4s ease;
+}
+
+li {
+  list-style: none;
+}
+
+.grid-container {
+  max-width: 1240px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $text-title;
+}
+
+.ck-editor__editable {
+  min-height: 400px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.text-hover {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  @include background-hover;
+
+  &:hover {
+    @include tag-a-hover;
+    color: $primary-normal;
+    background-size: 100% $primary-normal;
+  }
+}
+
+.skeleton {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-img {
+  animation: skeleton-loading 1s linear infinite alternate;
+}

@@ -1,9 +1,17 @@
+import { useDispatch } from "react-redux";
 import "./App.scss";
+import { useEffect } from "react";
+import { checkRefreshTokenFetch } from "./stores/apiAuthRequest";
+import Routers from "./routes/routers";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    checkRefreshTokenFetch(dispatch);
+  }, [dispatch]);
   return (
     <div className="App">
-      <p>App</p>
+      <Routers />
     </div>
   );
 }
