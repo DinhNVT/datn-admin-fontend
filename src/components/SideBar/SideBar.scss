@@ -1,0 +1,61 @@
+@import '../../assets/AppStyles/variables.scss';
+
+.side-bar-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  left: 0;
+  background-color: $primary-darker;
+  width: 270px;
+  overflow: hidden;
+
+  .side-bar-content { 
+    padding: 30px 30px;
+
+    .logo {
+      width: 200px;
+    }
+
+    .ul-menu {
+      display: block;
+      margin-top: 40px;
+
+      li {
+        position: relative;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        transition: all 0.4s ease-in-out;
+
+        a {
+          color: white;
+          letter-spacing: 1.1px;
+          display: block;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 12px 20px;
+          border-radius: 4px;
+
+          .icon {
+            vertical-align: middle;
+            margin-right: 8px;
+            font-size: 20px;
+          }
+        }
+
+        &.active {
+          background-color: $primary-normal;
+        }
+
+        &:hover {
+          background-color: $primary-normal;
+        }
+      }
+
+      li:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

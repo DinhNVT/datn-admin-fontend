@@ -5,6 +5,7 @@ import { HOME_PATH, LOGIN_PATH } from "./routers.constant";
 import Login from "../pages/Login/Login";
 import MainLayout from "../layouts/MainLayout/MainLayout";
 import AuthenticatedRoutes from "./AuthenticatedRoutes";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 function Routers() {
   return (
@@ -25,7 +26,9 @@ function Routers() {
           exact
           element={
             <AuthenticatedRoutes>
-              <MainLayout />
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
             </AuthenticatedRoutes>
           }
         />

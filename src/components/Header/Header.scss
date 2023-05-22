@@ -1,0 +1,116 @@
+@import "../../assets/AppStyles/variables.scss";
+
+.header-container {
+  position: fixed;
+  z-index: 998;
+  left: 270px;
+  right: 0;
+  background-color: $primary-darker;
+  height: 60px;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+
+  .header-content {
+    padding: 10px 30px;
+
+    .info-user {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      height: 60px;
+
+      .information {
+        text-align: end;
+        h4 {
+          color: white;
+        }
+        p {
+          text-transform: uppercase;
+        }
+      }
+      .avt {
+        width: 42px;
+        height: 42px;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: rgba(210, 210, 210, 0.2) 0px 2px 8px 0px;
+
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .dropdown-info {
+        position: absolute;
+        bottom: 0;
+        transform: translateY(100%);
+        right: 0;
+        min-width: 15rem;
+        border: 1px solid $gray-200;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 5px 10px rgba(135, 138, 153, 0.12);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        visibility: hidden;
+        margin-top: 10px;
+        ul {
+          padding: 10px 0;
+          li {
+            a,
+            button {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 10px 20px;
+              color: $gray-700;
+              outline: none;
+              border: none;
+              background-color: white;
+              display: block;
+              font-size: 16px;
+              width: 100%;
+              text-align: left;
+              .icon {
+                font-size: 20px;
+                vertical-align: middle;
+                margin-bottom: 3px;
+                color: $gray-700;
+              }
+
+              &:hover {
+                background-color: $gray-100;
+              }
+            }
+
+            button {
+              display: flex;
+              align-items: center;
+
+              .loader2 {
+                border: 2px solid $gray-700;
+                border-bottom-color: transparent;
+                width: 18px;
+                height: 18px;
+              }
+            }
+          }
+        }
+      }
+
+      &:hover .dropdown-info {
+        opacity: 1;
+        visibility: visible;
+        margin-top: 0;
+      }
+    }
+  }
+}
