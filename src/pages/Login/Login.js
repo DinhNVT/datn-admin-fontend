@@ -9,7 +9,7 @@ import { loginFetch } from "../../stores/apiAuthRequest";
 import Loader from "../../components/Loader/Loader";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { validateEmail } from "../../utils/validates";
-import { clearErrorLogin, clearUser } from "../../stores/authSlice";
+import { clearErrorLogin } from "../../stores/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("gafastadmin1@yopmail.com");
@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    dispatch(clearUser());
+    dispatch(clearErrorLogin());
   }, [dispatch]);
 
   return (

@@ -1,0 +1,10 @@
+@import '../../assets/AppStyles/variables.scss';
+
+.main-layout-container {
+  background-color: $body-bg;
+
+  .main-layout-children {
+    margin-left: 270px;
+    margin-top: 60px;
+  }
+}

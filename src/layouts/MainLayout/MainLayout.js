@@ -1,10 +1,16 @@
-import React from 'react'
-import './MainLayout.scss'
+import React from "react";
+import "./MainLayout.scss";
+import SideBar from "../../components/SideBar/SideBar";
+import Header from "../../components/Header/Header";
 
-const MainLayout = () => {
+const MainLayout = (props) => {
   return (
-    <div>MainLayout</div>
-  )
-}
+    <div className="main-layout-container">
+      <SideBar />
+      <Header />
+      <div className="main-layout-children">{props.children}</div>
+    </div>
+  );
+};
 
-export default MainLayout
+export default MainLayout;

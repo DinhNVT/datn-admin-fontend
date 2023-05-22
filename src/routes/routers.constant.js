@@ -1,10 +1,10 @@
-export const HOME_PATH = "/"
-export const LOGIN_PATH = "/login"
+export const HOME_PATH = "/";
+export const LOGIN_PATH = "/login";
 
 export const ACCOUNT_PATH = {
   LIST: "/accounts",
-  EDIT: "/accounts/:accountId"
-}
+  EDIT: "/accounts/:id",
+};
 
 // export const EVENT_PATH = {
 //   LIST: "/events",
