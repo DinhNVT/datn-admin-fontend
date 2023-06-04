@@ -14,7 +14,10 @@ const CategoryList = () => {
     try {
       const res = await apiGetAllCategories();
       if (res.data.categories.length > 0) {
-        setCategories(res.data.categories);
+        const modifiedCategories = res.data.categories.map((category) => {
+          return { ...category, key: category._id };
+        });
+        setCategories(modifiedCategories);
       }
     } catch (error) {
       console.log(error);
@@ -147,7 +150,9 @@ const CategoryList = () => {
               </label>
             </p>
             <div className="btn-category">
-              <button type="button" className="cancel">Thoát</button>
+              <button type="button" className="cancel">
+                Thoát
+              </button>
               <button
                 type="submit"
                 className="add"

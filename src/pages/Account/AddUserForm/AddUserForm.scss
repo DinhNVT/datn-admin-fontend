@@ -1,0 +1,159 @@
+@import "../../../assets/AppStyles/variables.scss";
+
+.form-content {
+  font-size: 16px;
+  margin: 30px 10px;
+
+  .title {
+    text-align: center;
+  }
+
+  .error-text-fetch {
+    @include error-text;
+    text-align: center;
+  }
+
+  .change-avatar-content {
+    display: flex;
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    cursor: pointer;
+
+    .edit-icon {
+      font-size: 120px;
+      color: $gray-200;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $gray-500;
+      border-radius: 50%;
+      opacity: 0;
+      padding: 16px;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    &:hover .edit-icon {
+      opacity: 0.7;
+      visibility: visible;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      border: 1px solid $gray-900;
+    }
+
+    .image-input {
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .delete-icon {
+      position: absolute;
+      // z-index: 999;
+      top: -10px;
+      right: -10px;
+      font-size: 24px;
+      color: $error-400;
+    }
+  }
+
+  .input-container {
+    label {
+      @include label-input;
+
+      .form-control-input {
+        display: block;
+        margin-top: 4px;
+        margin-bottom: 16px;
+        position: relative;
+
+        .input {
+          @include input;
+          margin-bottom: 4px;
+
+          &:focus {
+            box-shadow: $box-shadow-input;
+          }
+
+          &.input-password {
+            padding-right: 40px;
+          }
+        }
+
+        .input-select {
+          @include input;
+          padding: 0 20px;
+          font-weight: 600;
+          color: $gray-600;
+          margin-top: 8px;
+
+          option {
+            font-weight: 500;
+          }
+
+          &:focus {
+            box-shadow: $box-shadow-input;
+          }
+        }
+
+        .btn-show-password {
+          position: absolute;
+          top: 12px;
+          right: 10px;
+
+          svg {
+            color: $gray-600;
+          }
+        }
+
+        .error-text {
+          @include error-text;
+
+          &.note {
+            color: $gray-500;
+          }
+        }
+      }
+    }
+  }
+
+  .btn-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .btn {
+      @include button-black;
+      height: auto;
+      padding: 8px 16px;
+      min-width: 90px;
+
+      &.btn-cancel {
+        background-color: white;
+        color: $gray-800;
+      }
+
+      &.btn-save {
+        &.error-disable[disabled] {
+          @include button-disable;
+
+          &:hover {
+            @include button-disable-hover;
+          }
+        }
+      }
+    }
+  }
+}

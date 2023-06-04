@@ -32,7 +32,7 @@ const instanceJWT = axios.create({
 
 instanceJWT.interceptors.request.use(
   async (config) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = await localStorage.getItem("accessToken");
     let date = new Date();
     const decodedToken = jwt_decode(accessToken);
     if (decodedToken.exp < date.getTime() / 1000) {

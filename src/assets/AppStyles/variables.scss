@@ -202,6 +202,11 @@ $transition-bezier: cubic-bezier(0.5, 2.5, 0.7, 0.7);
   border: 1px solid $border-color;
   box-shadow: none;
   transform: translate(0, 0);
+
+  &:hover {
+    box-shadow: $small-shadow;
+    transform: translate(-2px, -2px);
+  }
 }
 
 @mixin button-no-color-hover {
