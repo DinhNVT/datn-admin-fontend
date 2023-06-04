@@ -3,7 +3,7 @@ export const LOGIN_PATH = "/login";
 
 export const ACCOUNT_PATH = {
   LIST: "/accounts",
-  EDIT: "/accounts/:id",
+  EDIT: "/accounts/edit/:id",
 };
 
 export const CATEGORY_PATH = {

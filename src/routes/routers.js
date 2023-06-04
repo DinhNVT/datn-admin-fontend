@@ -14,6 +14,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AccountList from "../pages/Account/AccountList/AccountList";
 import NotFoundPage from "../pages/404/NotFoundPage";
 import CategoryList from "../pages/Category/CategoryList/CategoryList";
+import AccountEdit from "../pages/Account/AccountEdit/AccountEdit";
 
 function Routers() {
   return (
@@ -47,6 +48,17 @@ function Routers() {
             <AuthenticatedRoutes>
               <MainLayout>
                 <AccountList />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={ACCOUNT_PATH.EDIT}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <AccountEdit />
               </MainLayout>
             </AuthenticatedRoutes>
           }

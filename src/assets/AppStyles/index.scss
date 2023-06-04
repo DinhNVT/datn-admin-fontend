@@ -98,3 +98,27 @@ h6 {
 .skeleton-img {
   animation: skeleton-loading 1s linear infinite alternate;
 }
+
+.custom-cancel-button {
+  @include button-black;
+  height: auto;
+  padding: 4px 16px;
+  background-color: white;
+  color: $gray-800;
+
+  &:hover {
+    border-color: $border-color!important;
+    color: $border-color!important;
+  }
+}
+
+.custom-ok-button {
+  @include button-black;
+  height: auto;
+  padding: 4px 16px;
+
+  &:hover {
+    border-color: $border-color!important;
+    background-color: $primary-normal!important;
+  }
+}

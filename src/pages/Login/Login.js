@@ -71,6 +71,8 @@ const Login = () => {
                   ? "Lỗi hệ thống. Vui lòng thử lại sau"
                   : errorMessage.message === "you do not have access"
                   ? "Bạn không phải là admin"
+                  : errorMessage.message === "User is already blocked"
+                  ? "Tài khoản của bạn đã bị chặn"
                   : ""}
               </span>
             </div>
