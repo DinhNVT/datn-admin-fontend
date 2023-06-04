@@ -5,6 +5,8 @@ $text-title: #333333;
 $border-color: #272727;
 $text-color: #353a44;
 $text-selection: #353a44;
+$icon-edit-color: #3f8cff;
+$icon-edit-color-hover: #d0e3ff;
 
 $primary-light: #f2fcf9;
 $primary-light-hover: #d9f6ef;
@@ -66,8 +68,8 @@ $success-900: #054f31;
 
 $warning-25: #fffcf5;
 $warning-50: #fffaeb;
-$warning-100: #fedf89;
-$warning-200: #fef0c7;
+$warning-200: #fedf89;
+$warning-100: #fef0c7;
 $warning-300: #fec84b;
 $warning-400: #fdb022;
 $warning-500: #f79009;
@@ -152,6 +154,11 @@ $transition-bezier: cubic-bezier(0.5, 2.5, 0.7, 0.7);
   padding: 12px 24px;
   transition: all 0.3s $transition-bezier;
   border: 1px solid $border-color;
+
+  &:hover {
+    box-shadow: $small-shadow;
+    transform: translate(-2px, -2px);
+  }
 }
 
 @mixin button-black-hover {
@@ -222,6 +229,10 @@ $transition-bezier: cubic-bezier(0.5, 2.5, 0.7, 0.7);
   -webkit-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
+
+  &:focus {
+    box-shadow: $box-shadow-input;
+  }
 }
 
 @mixin input-textarea {
@@ -244,6 +255,10 @@ $transition-bezier: cubic-bezier(0.5, 2.5, 0.7, 0.7);
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
   resize: none;
+
+  &:focus {
+    box-shadow: $box-shadow-input;
+  }
 }
 
 @mixin input-focus {

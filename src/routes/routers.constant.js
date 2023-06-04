@@ -6,12 +6,12 @@ export const ACCOUNT_PATH = {
   EDIT: "/accounts/:id",
 };
 
-// export const EVENT_PATH = {
-//   LIST: "/events",
-//   CREATE: "/events/create",
-//   EDIT: "/events/:eventId",
-//   DETAIL: "/events/detail"
-// }
+export const CATEGORY_PATH = {
+  LIST: "/categories",
+  // CREATE: "/events/create",
+  // EDIT: "/events/:eventId",
+  // DETAIL: "/events/detail"
+};
 
 // export const QUESTION_PATH = {
 //   LIST: "/questions",
