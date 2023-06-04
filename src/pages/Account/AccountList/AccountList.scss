@@ -1,0 +1,150 @@
+@import "../../../assets/AppStyles/variables.scss";
+
+.account-list-container {
+  .header {
+    margin: 0px 10px;
+    padding: 20px 0;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      border-radius: 8px;
+      padding: 20px 10px;
+      .right {
+        display: flex;
+        align-items: center;
+
+        .search {
+          margin-right: 10px;
+          .input-search {
+            @include input;
+            margin: 0;
+            border-radius: 500px;
+            padding-top: 24px;
+            padding-bottom: 24px;
+            min-width: 300px;
+          }
+        }
+
+        .btn-add-user {
+          @include button-black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .icon {
+            color: white;
+            vertical-align: middle;
+            font-size: 24px;
+          }
+        }
+      }
+    }
+  }
+  .table {
+    margin: 20px 10px;
+    padding: 20px 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 8px;
+    background-color: white;
+    overflow: hidden;
+    .ant-table-thead {
+      font-size: 16px;
+      tr {
+        .ant-table-cell {
+          background-color: $primary-light-hover;
+        }
+      }
+    }
+
+    .ant-table-tbody {
+      font-size: 16px;
+      .ant-table-cell {
+        .avt-name {
+          display: flex;
+          align-items: center;
+
+          .avt {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+          }
+
+          span {
+            margin-left: 8px;
+            font-size: 16px;
+          }
+        }
+
+        .tag {
+          padding: 6px 16px;
+          border-radius: 500px;
+
+          &.active {
+            background-color: $success-100;
+            color: $success-500;
+          }
+
+          &.not-verify {
+            background-color: $warning-100;
+            color: $warning-500;
+          }
+
+          &.blocked {
+            background-color: $error-100;
+            color: $error-500;
+          }
+
+          &.user {
+            background-color: #e6f4ff;
+            color: #0958d9;
+          }
+        }
+      }
+    }
+
+    .action-list {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .icon {
+        font-size: 24px;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+        border-radius: 2px;
+        transition: all 0.25s ease-in-out;
+
+        &.icon-edit {
+          color: $tag-color-4;
+
+          &:hover {
+            background-color: $icon-edit-color-hover;
+          }
+        }
+
+        &.icon-view {
+          color: $warning-400;
+
+          &:hover {
+            background-color: $warning-100;
+          }
+        }
+
+        &.icon-dot {
+          color: $gray-600;
+
+          &:hover {
+            background-color: $gray-200;
+          }
+        }
+      }
+    }
+  }
+}

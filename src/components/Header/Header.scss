@@ -94,6 +94,7 @@
             button {
               display: flex;
               align-items: center;
+              cursor: pointer;
 
               .loader2 {
                 border: 2px solid $gray-700;
