@@ -101,6 +101,7 @@
           margin-top: 8px;
           border-radius: 5px;
           min-height: 130px;
+          font-weight: 600;
         }
       }
 
@@ -117,28 +118,25 @@
 
         .cancel {
           @include button-black;
-          background-color: $gray-400;
+          background-color: white;
           border-color: $gray-600;
+          color: $gray-600;
         }
 
-        .add {
-          @include button-black;
-          margin: 20px 0;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        .btn {
+          min-width: 100px;
 
-          &.error-disable[disabled] {
-            @include button-disable;
+          &.btn-add {
+            @include button-black;
+            margin: 20px 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             &:hover {
-              @include button-disable-hover;
+              @include button-black-hover;
             }
-          }
-
-          &:hover {
-            @include button-black-hover;
           }
         }
       }
@@ -152,6 +150,47 @@
       border-radius: 8px;
       background-color: white;
       overflow: hidden;
+
+      .action-list {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .icon {
+          font-size: 24px;
+          cursor: pointer;
+          width: 28px;
+          height: 28px;
+          padding: 4px;
+          border-radius: 2px;
+          transition: all 0.25s ease-in-out;
+
+          &.icon-edit {
+            color: $tag-color-4;
+
+            &:hover {
+              background-color: $icon-edit-color-hover;
+            }
+          }
+
+          &.icon-view {
+            color: $warning-400;
+
+            &:hover {
+              background-color: $warning-100;
+            }
+          }
+
+          &.icon-delete {
+            color: $error-600;
+
+            &:hover {
+              background-color: $error-200;
+            }
+          }
+        }
+      }
+
       .ant-table-thead {
         font-size: 16px;
         tr {

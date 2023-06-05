@@ -10,7 +10,7 @@ import {
   apiUnBlockUser,
 } from "../../../apis/user";
 import avtDefault from "../../../assets/images/avatar_default.png";
-import { getCreatedAtString } from "../../../utils/convertTime copy";
+import { getCreatedAtString } from "../../../utils/convertTime";
 import { RiAddFill } from "react-icons/ri";
 import { TbEdit, TbDotsVertical } from "react-icons/tb";
 import AddUserForm from "../AddUserForm/AddUserForm";
@@ -287,7 +287,6 @@ const AccountList = () => {
       dataIndex: "_id",
       render: (_id, record) => (
         <div className="action-list">
-          {/* <TbEye className="icon icon-view" /> */}
           <TbEdit
             onClick={() => {
               handleOnClickEdit(_id);

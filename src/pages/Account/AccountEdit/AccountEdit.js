@@ -152,6 +152,7 @@ const AccountEdit = () => {
             </div>
           </div>
         )}
+        {!user && <p>Không có user này</p>}
         {(isShowModal === "name" ||
           isShowModal === "username" ||
           isShowModal === "bio") && (
