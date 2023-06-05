@@ -1,14 +1,43 @@
 import React, { useEffect, useState } from "react";
 import "./CategoryList.scss";
-import { Table } from "antd";
-import { getCreatedAtString } from "../../../utils/convertTime copy";
-import { RiSearchLine } from "react-icons/ri";
-import { apiGetAllCategories } from "../../../apis/category";
+import { Breadcrumb, Table } from "antd";
+import { getCreatedAtString } from "../../../utils/convertTime";
+import {
+  apiCreateCategory,
+  apiDeleteCategory,
+  apiGetAllCategories,
+  apiUpdateCategory,
+} from "../../../apis/category";
+import { TbEye, TbEdit, TbTrash } from "react-icons/tb";
+import Loader from "../../../components/Loader/Loader";
+import {
+  deleteAlert,
+  errorAlert,
+  successAlert,
+} from "../../../utils/customAlert";
+import { HOME_PATH } from "../../../routes/routers.constant";
+import { RxDashboard } from "react-icons/rx";
+import { Link } from "react-router-dom";
+import CategoryView from "../CategoryView/CategoryView";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState("create");
+  const [categoryUpdate, setCategoryUpdate] = useState(null);
+  const [keyword, setKeyword] = useState("");
+  const [isShowModalView, setIsShowModalView] = useState(false);
+  const [categoryIdView, setCategoryIdView] = useState("");
+
+  const closeModalView = () => {
+    setIsShowModalView(false);
+  };
+
+  const openModalView = () => {
+    setIsShowModalView(true);
+  };
 
   const getAllCategories = async () => {
     try {
@@ -31,81 +60,210 @@ const CategoryList = () => {
   const handleNameChange = (e) => {
     const name = e.target.value;
     setName(name);
-    // if (!validateEmail(email)) {
-    //   setErrorInput((prevError) => ({
-    //     ...prevError,
-    //     email: "Email không hợp lệ",
-    //   }));
-    // } else {
-    //   setErrorInput((prevError) => ({
-    //     ...prevError,
-    //     email: "",
-    //   }));
-    // }
   };
 
   const handleDescriptionChange = (e) => {
     const description = e.target.value;
     setDescription(description);
-    // if (!validateEmail(email)) {
-    //   setErrorInput((prevError) => ({
-    //     ...prevError,
-    //     email: "Email không hợp lệ",
-    //   }));
-    // } else {
-    //   setErrorInput((prevError) => ({
-    //     ...prevError,
-    //     email: "",
-    //   }));
-    // }
   };
 
   const columns = [
     {
       title: "Tên",
       dataIndex: "name",
-      key: "name",
     },
     {
       title: "Mô tả",
       dataIndex: "description",
-      key: "description",
     },
     {
       title: "Slug",
       dataIndex: "slug",
-      key: "slug",
+    },
+    {
+      title: "Bài viết",
+      dataIndex: "posts",
+      render: (posts) => <span>{posts.length}</span>,
     },
     {
       title: "Ngày tạo",
       dataIndex: "createdAt",
-      key: "createdAt",
       render: (createdAt) => <span>{getCreatedAtString(createdAt)}</span>,
     },
     {
       title: "Hành động",
       dataIndex: "_id",
-      key: "_id",
-      render: (_id) => <div>{_id}</div>,
+      render: (_id) => (
+        <div className="action-list">
+          <TbEye
+            onClick={() => {
+              openModalView();
+              setCategoryIdView(_id);
+            }}
+            className="icon icon-view"
+          />
+          <TbEdit
+            onClick={() => {
+              handleEditCategory(_id);
+            }}
+            className="icon icon-edit"
+          />
+          <TbTrash
+            onClick={() => {
+              handleOnClickDeleteCategory(_id);
+            }}
+            className="icon icon-delete"
+          />
+        </div>
+      ),
     },
   ];
+
+  const handleOnClickDeleteCategory = (id) => {
+    const selectedCategory = categories.find((category) => category._id === id);
+    if (selectedCategory) {
+      if (selectedCategory.posts.length > 0) {
+        errorAlert("Bạn không được phép xóa", "Danh mục này đã có bài viết");
+      } else {
+        const confirmDelete = () => {
+          return apiDeleteCategory(id);
+        };
+
+        deleteAlert(
+          "Xóa danh mục",
+          "Sau khi bạn xóa thì không thể hoàn tác",
+          confirmDelete,
+          getAllCategories
+        );
+      }
+    }
+  };
+
+  const handleCreateCategory = async () => {
+    setIsLoading(true);
+    try {
+      await apiCreateCategory({ name: name, description: description });
+      getAllCategories();
+      successAlert("Đã thêm danh mục thành công");
+      setIsLoading(false);
+      setName("");
+      setDescription("");
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      errorAlert("Đã xảy ra lỗi", "Vui lòng thử lại sau");
+    }
+  };
+
+  const cancelOnclick = () => {
+    setStatus("create");
+    setName("");
+    setDescription("");
+    setCategoryUpdate(null);
+  };
+
+  const handleEditCategory = (categoryId) => {
+    const selectedCategory = categories.find(
+      (category) => category._id === categoryId
+    );
+    if (selectedCategory) {
+      setStatus("update");
+      setName(selectedCategory.name);
+      setDescription(selectedCategory.description);
+      setCategoryUpdate(selectedCategory);
+    }
+  };
+
+  const handleUpdateCategory = async () => {
+    setIsLoading(true);
+    try {
+      await apiUpdateCategory(categoryUpdate._id, {
+        name: name,
+        description: description,
+      });
+      getAllCategories();
+      successAlert("Đã cập nhật danh mục thành công");
+      setIsLoading(false);
+      setName("");
+      setDescription("");
+      setStatus("create");
+      setCategoryUpdate(null);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      errorAlert("Đã xảy ra lỗi", "Vui lòng thử lại sau");
+    }
+  };
+
+  const handleSearch = () => {
+    const filteredCategories = categories.filter((category) => {
+      const nameMatch = category.name
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
+      const descriptionMatch = category.description
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
+      const slugMatch = category.slug
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
+      return nameMatch || descriptionMatch || slugMatch;
+    });
+
+    return filteredCategories;
+  };
   return (
     <div className="category-list-container">
       <div className="header">
         <div className="header-content">
-          <h1>Danh mục</h1>
+          <div>
+            <h1>Danh sách danh mục</h1>
+            <Breadcrumb
+              items={[
+                {
+                  to: HOME_PATH,
+                  title: (
+                    <Link to={HOME_PATH}>
+                      <RxDashboard className="icon-bread-crumb" />
+                    </Link>
+                  ),
+                },
+                {
+                  title: "Danh mục",
+                },
+              ]}
+            />
+          </div>
+
           <div className="right">
             <div className="search">
-              <input className="input-search" placeholder="Tìm kiếm..."></input>
-              <RiSearchLine className={"icon-search"} />
+              <input
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                className="input-search"
+                placeholder="Tìm kiếm..."
+                type="text"
+                name="search"
+                autoComplete="off"
+              ></input>
             </div>
           </div>
         </div>
       </div>
       <div className="category-content">
         <div className="add-edit-category">
-          <h3 className="title">Tạo danh mục</h3>
-          <form>
+          <h3 className="title">
+            {status === "update" ? "Sửa danh mục" : "Tạo danh mục"}
+          </h3>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (status === "update") {
+                handleUpdateCategory();
+              } else if (status === "create") {
+                handleCreateCategory();
+              }
+            }}
+          >
             <p className="input-container">
               <label>
                 Tên danh mục <span>*</span>
@@ -122,12 +280,8 @@ const CategoryList = () => {
                     name="name-category"
                     placeholder="Nhập tên"
                     required
+                    autoComplete="off"
                   />
-                  {/* {!!errorInput.email && (
-                    <span className="error-text" aria-hidden="true">
-                      {errorInput.email}
-                    </span>
-                  )} */}
                 </span>
               </label>
             </p>
@@ -142,27 +296,31 @@ const CategoryList = () => {
                   placeholder="Viết mô tả..."
                   className="input-text-area"
                 />
-                {/* {!!errorInput.content && (
-                  <span className="error-text" aria-hidden="true">
-                    {errorInput.content}
-                  </span>
-                )} */}
               </label>
             </p>
             <div className="btn-category">
-              <button type="button" className="cancel">
-                Thoát
-              </button>
+              {status === "update" && (
+                <button
+                  onClick={cancelOnclick}
+                  type="button"
+                  className="cancel"
+                >
+                  Hủy
+                </button>
+              )}
+
               <button
                 type="submit"
-                className="add"
-                // className={`login${
-                //   errorInput.email !== "" ? " error-disable" : ""
-                // }`}
-                // disabled={isLoading === true}
+                className="btn btn-add"
+                disabled={isLoading === true}
               >
-                Tạo Danh Mục
-                {/* {isLoading ? <Loader /> : "Đăng nhập"} */}
+                {isLoading ? (
+                  <Loader />
+                ) : status === "create" ? (
+                  "Tạo Danh Mục"
+                ) : (
+                  "Lưu"
+                )}
               </button>
             </div>
           </form>
@@ -170,13 +328,20 @@ const CategoryList = () => {
         {categories.length > 0 && (
           <div className="table">
             <Table
-              dataSource={categories}
+              dataSource={handleSearch()}
               columns={columns}
               pagination={{
                 pageSize: 10,
               }}
             />
           </div>
+        )}
+        {isShowModalView && (
+          <CategoryView
+            isShowModal={isShowModalView}
+            closeModal={closeModalView}
+            id={categoryIdView}
+          />
         )}
       </div>
     </div>

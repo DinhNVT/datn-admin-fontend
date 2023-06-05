@@ -107,8 +107,8 @@ h6 {
   color: $gray-800;
 
   &:hover {
-    border-color: $border-color!important;
-    color: $border-color!important;
+    border-color: $border-color !important;
+    color: $border-color !important;
   }
 }
 
@@ -118,7 +118,15 @@ h6 {
   padding: 4px 16px;
 
   &:hover {
-    border-color: $border-color!important;
-    background-color: $primary-normal!important;
+    border-color: $border-color !important;
+    background-color: $primary-normal !important;
   }
+}
+
+.ant-modal {
+  width: auto !important;
+}
+
+.ant-modal-body {
+  font-size: 16px;
 }

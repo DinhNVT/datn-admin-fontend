@@ -34,11 +34,11 @@ instanceJWT.interceptors.request.use(
   async (config) => {
     const accessToken = await localStorage.getItem("accessToken");
     let date = new Date();
-    const decodedToken = jwt_decode(accessToken);
+    const decodedToken = await jwt_decode(accessToken);
     if (decodedToken.exp < date.getTime() / 1000) {
       const data = await refreshToken();
-      localStorage.setItem("accessToken", data?.accessToken);
-      config.headers.Authorization = `Bearer ${data?.accessToken}`;
+      localStorage.setItem("accessToken", data.accessToken);
+      config.headers.Authorization = `Bearer ${data.accessToken}`;
     } else {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
