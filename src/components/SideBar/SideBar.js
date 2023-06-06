@@ -6,7 +6,11 @@ import { RxDashboard } from "react-icons/rx";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi2";
-import { ACCOUNT_PATH, CATEGORY_PATH } from "../../routes/routers.constant";
+import {
+  ACCOUNT_PATH,
+  CATEGORY_PATH,
+  POST_PATH,
+} from "../../routes/routers.constant";
 
 const SideBar = () => {
   const location = useLocation();
@@ -38,8 +42,12 @@ const SideBar = () => {
               <MdOutlineCategory className={"icon"} /> Danh mục
             </Link>
           </li>
-          <li className={location.pathname.includes("/write") ? "active" : ""}>
-            <Link to={"/write"}>
+          <li
+            className={
+              location.pathname.includes(POST_PATH.LIST) ? "active" : ""
+            }
+          >
+            <Link to={POST_PATH.LIST}>
               <FiEdit className={"icon"} /> Bài viết
             </Link>
           </li>

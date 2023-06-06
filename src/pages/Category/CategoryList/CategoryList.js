@@ -71,24 +71,29 @@ const CategoryList = () => {
     {
       title: "Tên",
       dataIndex: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Mô tả",
       dataIndex: "description",
+      sorter: (a, b) => a.description.localeCompare(b.description),
     },
     {
       title: "Slug",
       dataIndex: "slug",
+      sorter: (a, b) => a.slug.localeCompare(b.slug),
     },
     {
       title: "Bài viết",
       dataIndex: "posts",
       render: (posts) => <span>{posts.length}</span>,
+      sorter: (a, b) => a.posts.length - b.posts.length,
     },
     {
       title: "Ngày tạo",
       dataIndex: "createdAt",
       render: (createdAt) => <span>{getCreatedAtString(createdAt)}</span>,
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
     },
     {
       title: "Hành động",
@@ -240,7 +245,7 @@ const CategoryList = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 className="input-search"
-                placeholder="Tìm kiếm..."
+                placeholder="Tìm kiếm danh mục..."
                 type="text"
                 name="search"
                 autoComplete="off"

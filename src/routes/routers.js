@@ -6,6 +6,7 @@ import {
   CATEGORY_PATH,
   HOME_PATH,
   LOGIN_PATH,
+  POST_PATH,
 } from "./routers.constant";
 import Login from "../pages/Login/Login";
 import MainLayout from "../layouts/MainLayout/MainLayout";
@@ -15,6 +16,10 @@ import AccountList from "../pages/Account/AccountList/AccountList";
 import NotFoundPage from "../pages/404/NotFoundPage";
 import CategoryList from "../pages/Category/CategoryList/CategoryList";
 import AccountEdit from "../pages/Account/AccountEdit/AccountEdit";
+import PostList from "../pages/Post/PostList/PostList";
+import WritePost from "../pages/Post/WritePost/WritePost";
+import EditPost from "../pages/Post/EditPost/EditPost";
+import ViewPost from "../pages/Post/ViewPost/ViewPost";
 
 function Routers() {
   return (
@@ -70,6 +75,50 @@ function Routers() {
             <AuthenticatedRoutes>
               <MainLayout>
                 <CategoryList />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={POST_PATH.LIST}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <PostList />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={POST_PATH.WRITE}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <WritePost />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={POST_PATH.EDIT}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <EditPost />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={POST_PATH.VIEW}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <ViewPost />
               </MainLayout>
             </AuthenticatedRoutes>
           }
