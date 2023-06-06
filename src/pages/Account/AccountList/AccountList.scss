@@ -60,6 +60,21 @@
         @include button-no-color;
         padding: 8px 16px;
         min-width: 100px;
+
+        &.btn-block-all {
+          background-color: $error-400;
+          color: white;
+        }
+
+        &.btn-unblock-all {
+          background-color: $primary-normal;
+          color: white;
+        }
+
+        &.btn-replace-role-all {
+          background-color: $warning-500;
+          color: white;
+        }
       }
     }
 

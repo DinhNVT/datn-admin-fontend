@@ -64,8 +64,10 @@ export const confirmAlert = (
   title,
   text,
   textConfirm,
+  colorConfirm,
   confirmFunction,
   handleConfirmSuccess,
+  handleConfirmFail,
   valueAlertSuccess
 ) => {
   Swal.fire({
@@ -73,7 +75,7 @@ export const confirmAlert = (
     text: text,
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#00c491",
+    confirmButtonColor: colorConfirm,
     cancelButtonColor: "#98a2b3",
     cancelButtonText: "Hủy",
     confirmButtonText: textConfirm,
@@ -84,11 +86,12 @@ export const confirmAlert = (
         await confirmFunction();
         handleConfirmSuccess();
       } catch (error) {
+        handleConfirmFail();
         const errorTitle = "Lỗi hệ thống";
         const errorMessage =
           "Có một số lỗi khi thực hiện thao tác. Vui lòng thử lại sau";
         errorAlert(errorTitle, errorMessage);
-        throw new Error("Confirm failed.");
+        // throw new Error("Confirm failed.");
       }
     },
   }).then((result) => {

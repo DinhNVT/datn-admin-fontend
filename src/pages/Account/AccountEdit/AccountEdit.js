@@ -77,7 +77,7 @@ const AccountEdit = () => {
               }}
               className="btn-add-user"
             >
-              Xem danh sách tải khoản
+              Xem danh sách tài khoản
             </button>
           </div>
         </div>

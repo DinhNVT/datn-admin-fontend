@@ -17,8 +17,7 @@ import AddUserForm from "../AddUserForm/AddUserForm";
 import { Link, useNavigate } from "react-router-dom";
 import { ACCOUNT_PATH, HOME_PATH } from "../../../routes/routers.constant";
 import { RxDashboard } from "react-icons/rx";
-import { errorAlert, successAlert } from "../../../utils/customAlert";
-import Loader2 from "../../../components/Loader2/Loader2";
+import { confirmAlert, errorAlert } from "../../../utils/customAlert";
 import { useSelector } from "react-redux";
 
 const AccountList = () => {
@@ -42,11 +41,6 @@ const AccountList = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-
-  const [isLoadingBlock, setIsLoadingBlock] = useState(false);
-  const [isLoadingBlocks, setIsLoadingBlocks] = useState("");
-  const [isLoadingChangeRole, setIsLoadingChangeRole] = useState(false);
-  const [isLoadingChangeRoles, setIsLoadingChangeRoles] = useState("");
 
   const { user } = useSelector((state) => state?.auth?.login);
 
@@ -105,94 +99,167 @@ const AccountList = () => {
   };
 
   const handleBlockUser = async (status, id) => {
-    setIsLoadingBlock(true);
     if (user._id === id) {
       errorAlert("Đã xảy ra lỗi", "Bạn không được chặn chính bạn");
-      setIsLoadingBlock(false);
       setIsShowDropDown(false);
       return;
     }
     if (status === "unblock") {
-      try {
-        await apiUnBlockUser(id);
+      const confirmChangRole = () => {
+        return apiUnBlockUser(id);
+      };
+
+      const confirmChangRoleSuccess = () => {
         getAllUsers();
-        successAlert("Đã bỏ chặn");
-        setIsLoadingBlock(false);
         setIsShowDropDown(false);
-      } catch (error) {
-        errorAlert("Đã xảy ra lỗi", error?.response?.data?.message);
-        setIsLoadingBlock(false);
-      }
+      };
+
+      const confirmChangRoleFail = () => {};
+
+      confirmAlert(
+        "Bạn có muốn bỏ chặn không",
+        "",
+        "Bỏ chặn",
+        "#00c491",
+        confirmChangRole,
+        confirmChangRoleSuccess,
+        confirmChangRoleFail,
+        {
+          title: "Bỏ chặn thành công",
+          text: "",
+          timer: 1500,
+          isShowConfirmButton: false,
+        }
+      );
     } else if (status === "block") {
-      try {
-        await apiBlockUser(id);
+      const confirmChangRole = () => {
+        return apiBlockUser(id);
+      };
+
+      const confirmChangRoleSuccess = () => {
         getAllUsers();
-        successAlert("Đã chặn");
-        setIsLoadingBlock(false);
         setIsShowDropDown(false);
-      } catch (error) {
-        errorAlert("Đã xảy ra lỗi", error?.response?.data?.message);
-        setIsLoadingBlock(false);
-      }
+      };
+
+      const confirmChangRoleFail = () => {};
+
+      confirmAlert(
+        "Bạn có muốn chặn không",
+        "",
+        "Chặn",
+        "#f97066",
+        confirmChangRole,
+        confirmChangRoleSuccess,
+        confirmChangRoleFail,
+        {
+          title: "Chặn thành công",
+          text: "",
+          timer: 1500,
+          isShowConfirmButton: false,
+        }
+      );
     }
   };
 
   const handleChangeRoleUser = async (role, id) => {
-    setIsLoadingChangeRole(true);
     if (user._id === id) {
       errorAlert("Đã xảy ra lỗi", "Bạn không được đổi quyền chính bạn");
-      setIsLoadingChangeRole(false);
       setIsShowDropDown(false);
       return;
     }
-    try {
-      await apiChangeRoleUser(id, { role: role });
+
+    const confirmChangRole = () => {
+      return apiChangeRoleUser(id, { role: role });
+    };
+
+    const confirmChangRoleSuccess = () => {
       getAllUsers();
-      successAlert("Đã đổi quyền");
-      setIsLoadingChangeRole(false);
       setIsShowDropDown(false);
-    } catch (error) {
-      errorAlert("Đã xảy ra lỗi", error?.response?.data?.message);
-      setIsLoadingChangeRole(false);
-      console.log(error);
-    }
+    };
+
+    const confirmChangRoleFail = () => {};
+
+    confirmAlert(
+      "Bạn có muốn đổi quyền không",
+      "",
+      "Đổi quyền",
+      "#00c491",
+      confirmChangRole,
+      confirmChangRoleSuccess,
+      confirmChangRoleFail,
+      {
+        title: "Đổi quyền thành công",
+        text: "",
+        timer: 1500,
+        isShowConfirmButton: false,
+      }
+    );
   };
 
   const handleChangeRolesUser = async (role) => {
-    setIsLoadingChangeRoles(role);
-    try {
-      await apiChangeRolesUser({
+    const confirmChangRole = () => {
+      return apiChangeRolesUser({
         userIds: selectedRowKeys,
         role: role,
       });
+    };
+
+    const confirmChangRoleSuccess = () => {
       getAllUsers();
-      successAlert("Đã đổi quyền");
-      setIsLoadingChangeRoles("");
       setSelectedRowKeys([]);
-    } catch (error) {
-      errorAlert("Đã xảy ra lỗi", error?.response?.data?.message);
-      setIsLoadingChangeRoles("");
-      console.log(error);
-    }
+    };
+
+    const confirmChangRoleFail = () => {};
+
+    confirmAlert(
+      `Đổi quyền thành ${role}`,
+      "Bạn có muốn đổi quyền tất cả không",
+      "Đổi quyền",
+      "#00c491",
+      confirmChangRole,
+      confirmChangRoleSuccess,
+      confirmChangRoleFail,
+      {
+        title: "Đổi quyền thành công",
+        text: "",
+        timer: 1500,
+        isShowConfirmButton: false,
+      }
+    );
   };
 
   const handleBlockAndUnblockUsers = async (block) => {
-    setIsLoadingBlocks(block);
-    try {
-      await apiBlockAndUnBlockUsers({
+    const confirmChangRole = () => {
+      return apiBlockAndUnBlockUsers({
         userIds: selectedRowKeys,
         block: block,
       });
+    };
+
+    const confirmChangRoleSuccess = () => {
       getAllUsers();
-      if (block === true) successAlert("Đã chặn tất cả");
-      else if (block === false) successAlert("Đã bỏ chặn tất cả");
-      setIsLoadingBlocks("");
       setSelectedRowKeys([]);
-    } catch (error) {
-      errorAlert("Đã xảy ra lỗi", error?.response?.data?.message);
-      setIsLoadingBlocks("");
-      console.log(error);
-    }
+    };
+
+    const confirmChangRoleFail = () => {};
+
+    confirmAlert(
+      `${
+        block === true ? "Chặn tất cả người dùng" : "Bỏ chặn tất cả người dùng"
+      }`,
+      "",
+      `${block === true ? "Chặn tất cả" : "Bỏ chặn tất cả"}`,
+      `${block === true ? "#f97066" : "#00c491"}`,
+      confirmChangRole,
+      confirmChangRoleSuccess,
+      confirmChangRoleFail,
+      {
+        title: `${block === true ? "Đã chặn tất cả" : "Đã bỏ chặn tất cả"}`,
+        text: "",
+        timer: 1500,
+        isShowConfirmButton: false,
+      }
+    );
   };
 
   const columns = [
@@ -314,13 +381,7 @@ const AccountList = () => {
                       handleBlockUser(status, _id);
                     }}
                   >
-                    {isLoadingBlock ? (
-                      <Loader2 />
-                    ) : record.isBlocked === true ? (
-                      "Mở chặn"
-                    ) : (
-                      "Chặn tài khoản"
-                    )}
+                    {record.isBlocked === true ? "Bỏ chặn" : "Chặn tài khoản"}
                   </li>
                   <li
                     onClick={() => {
@@ -329,7 +390,7 @@ const AccountList = () => {
                       handleChangeRoleUser(role, _id);
                     }}
                   >
-                    {isLoadingChangeRole ? <Loader2 /> : "Đổi quyền"}
+                    {"Đổi quyền"}
                   </li>
                 </ul>
               </div>
@@ -395,41 +456,33 @@ const AccountList = () => {
                 onClick={() => {
                   handleBlockAndUnblockUsers(true);
                 }}
-                className="btn"
+                className="btn btn-block-all"
               >
-                {isLoadingBlocks === true ? <Loader2 /> : "Chặn tất cả"}
+                {"Chặn tất cả"}
               </button>
               <button
                 onClick={() => {
                   handleBlockAndUnblockUsers(false);
                 }}
-                className="btn"
+                className="btn btn-unblock-all"
               >
-                {isLoadingBlocks === false ? <Loader2 /> : "Bỏ chặn tất cả"}
+                {"Bỏ chặn tất cả"}
               </button>
               <button
                 onClick={() => {
                   handleChangeRolesUser("admin");
                 }}
-                className="btn"
+                className="btn btn-replace-role-all"
               >
-                {isLoadingChangeRoles === "admin" ? (
-                  <Loader2 />
-                ) : (
-                  "Đổi quyền thành admin"
-                )}
+                {"Đổi quyền thành admin"}
               </button>
               <button
                 onClick={() => {
                   handleChangeRolesUser("user");
                 }}
-                className="btn"
+                className="btn btn-replace-role-all"
               >
-                {isLoadingChangeRoles === "user" ? (
-                  <Loader2 />
-                ) : (
-                  "Đổi quyền thành user"
-                )}
+                {"Đổi quyền thành user"}
               </button>
             </div>
           )}

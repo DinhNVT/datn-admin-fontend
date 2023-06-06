@@ -13,10 +13,12 @@ export const CATEGORY_PATH = {
   // DETAIL: "/events/detail"
 };
 
-// export const QUESTION_PATH = {
-//   LIST: "/questions",
-//   DETAIL: "/questions/:id"
-// }
+export const POST_PATH = {
+  LIST: "/posts",
+  WRITE: "/posts/write",
+  EDIT: "/posts/edit/:id",
+  VIEW: "/posts/detail/:id",
+};
 
 // export const CONGRESS_ELECTION_PATH = {
 //   CONGRESS_ELECTION: "/congress-election",
