@@ -19,6 +19,7 @@ import { ACCOUNT_PATH, HOME_PATH } from "../../../routes/routers.constant";
 import { RxDashboard } from "react-icons/rx";
 import { confirmAlert, errorAlert } from "../../../utils/customAlert";
 import { useSelector } from "react-redux";
+import { MdOutlineClose } from "react-icons/md";
 
 const AccountList = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const AccountList = () => {
   const getAllUsers = async () => {
     try {
       const res = await apiGetAllUsers();
-      if (res.data.users.length > 0) {
+      if (res.data.users.length >= 0) {
         const modifiedUsers = res.data.users.map((user) => {
           return { ...user, key: user._id };
         });
@@ -436,6 +437,14 @@ const AccountList = () => {
                 autoComplete="off"
                 required
               />
+              {!!keyword && (
+                <MdOutlineClose
+                  onClick={() => {
+                    setKeyword("");
+                  }}
+                  className={"icon-search"}
+                />
+              )}
             </div>
             <button onClick={openModal} className="btn-add-user">
               <RiAddFill className={"icon"} /> Thêm user
@@ -448,7 +457,7 @@ const AccountList = () => {
           </div>
         </div>
       </div>
-      {users.length > 0 && (
+      {users.length >= 0 && (
         <div className="table">
           {selectedRowKeys.length > 0 && (
             <div className="btn-list-action">

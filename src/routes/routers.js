@@ -4,9 +4,11 @@ import AuthRouters from "./AuthRouters";
 import {
   ACCOUNT_PATH,
   CATEGORY_PATH,
+  CONTACT_PATH,
   HOME_PATH,
   LOGIN_PATH,
   POST_PATH,
+  REPORT_COMMENT_PATH,
 } from "./routers.constant";
 import Login from "../pages/Login/Login";
 import MainLayout from "../layouts/MainLayout/MainLayout";
@@ -20,6 +22,8 @@ import PostList from "../pages/Post/PostList/PostList";
 import WritePost from "../pages/Post/WritePost/WritePost";
 import EditPost from "../pages/Post/EditPost/EditPost";
 import ViewPost from "../pages/Post/ViewPost/ViewPost";
+import ContactList from "../pages/Contact/ContactList";
+import ReportList from "../pages/ReportComment/ReportList";
 
 function Routers() {
   return (
@@ -119,6 +123,28 @@ function Routers() {
             <AuthenticatedRoutes>
               <MainLayout>
                 <ViewPost />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={REPORT_COMMENT_PATH.LIST}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <ReportList />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={CONTACT_PATH.LIST}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <ContactList />
               </MainLayout>
             </AuthenticatedRoutes>
           }

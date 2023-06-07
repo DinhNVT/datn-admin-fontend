@@ -6,10 +6,14 @@ import { RxDashboard } from "react-icons/rx";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi2";
+import { AiOutlineContacts } from "react-icons/ai";
+import { GoReport } from "react-icons/go";
 import {
   ACCOUNT_PATH,
   CATEGORY_PATH,
+  CONTACT_PATH,
   POST_PATH,
+  REPORT_COMMENT_PATH,
 } from "../../routes/routers.constant";
 
 const SideBar = () => {
@@ -49,6 +53,26 @@ const SideBar = () => {
           >
             <Link to={POST_PATH.LIST}>
               <FiEdit className={"icon"} /> Bài viết
+            </Link>
+          </li>
+          <li
+            className={
+              location.pathname.includes(REPORT_COMMENT_PATH.LIST)
+                ? "active"
+                : ""
+            }
+          >
+            <Link to={REPORT_COMMENT_PATH.LIST}>
+              <GoReport className={"icon"} /> Bình luận xấu
+            </Link>
+          </li>
+          <li
+            className={
+              location.pathname.includes(CONTACT_PATH.LIST) ? "active" : ""
+            }
+          >
+            <Link to={CONTACT_PATH.LIST}>
+              <AiOutlineContacts className={"icon"} /> Liên hệ
             </Link>
           </li>
         </ul>

@@ -18,6 +18,7 @@
 
         .search {
           margin-right: 10px;
+          position: relative;
           .input-search {
             @include input;
             margin: 0;
@@ -25,6 +26,21 @@
             padding-top: 24px;
             padding-bottom: 24px;
             min-width: 300px;
+            padding-right: 40px;
+          }
+
+          .icon-search {
+            position: absolute;
+            right: 16px;
+            font-size: 24px;
+            color: $gray-600;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.8;
+            }
           }
         }
 

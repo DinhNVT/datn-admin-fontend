@@ -19,6 +19,7 @@ import { HOME_PATH } from "../../../routes/routers.constant";
 import { RxDashboard } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import CategoryView from "../CategoryView/CategoryView";
+import { MdOutlineClose } from "react-icons/md";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -42,7 +43,7 @@ const CategoryList = () => {
   const getAllCategories = async () => {
     try {
       const res = await apiGetAllCategories();
-      if (res.data.categories.length > 0) {
+      if (res.data.categories.length >= 0) {
         const modifiedCategories = res.data.categories.map((category) => {
           return { ...category, key: category._id };
         });
@@ -250,6 +251,14 @@ const CategoryList = () => {
                 name="search"
                 autoComplete="off"
               ></input>
+              {!!keyword && (
+                <MdOutlineClose
+                  onClick={() => {
+                    setKeyword("");
+                  }}
+                  className={"icon-search"}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -330,7 +339,7 @@ const CategoryList = () => {
             </div>
           </form>
         </div>
-        {categories.length > 0 && (
+        {categories.length >= 0 && (
           <div className="table">
             <Table
               dataSource={handleSearch()}

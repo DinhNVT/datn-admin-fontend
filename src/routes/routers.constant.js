@@ -20,6 +20,14 @@ export const POST_PATH = {
   VIEW: "/posts/detail/:id",
 };
 
+export const REPORT_COMMENT_PATH = {
+  LIST: "/report-comment",
+};
+
+export const CONTACT_PATH = {
+  LIST: "/contacts",
+};
+
 // export const CONGRESS_ELECTION_PATH = {
 //   CONGRESS_ELECTION: "/congress-election",
 //   CONGRESS_LIST: "/congress-election/congress-list",
