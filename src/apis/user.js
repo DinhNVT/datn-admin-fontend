@@ -24,3 +24,5 @@ export const apiChangeRolesUser = (roles) =>
   instanceJWT.put(`/users/change-roles/users`, roles);
 export const apiBlockAndUnBlockUsers = (blocks) =>
   instanceJWT.put(`/users/block-unblock/users`, blocks);
+export const apiGetUserPrivateByUserId = () =>
+  instanceJWT.get(`/users/user/id`);

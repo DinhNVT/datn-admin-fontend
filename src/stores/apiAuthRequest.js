@@ -1,4 +1,5 @@
 import { login, refreshToken, logoutUser } from "../apis/auth";
+import { apiGetUserPrivateByUserId } from "../apis/user";
 import { isLoading, loginSuccess, loginFailed, clearUser } from "./authSlice";
 
 // Create an async thunk for logging in
@@ -51,6 +52,16 @@ export const logoutUserFetch = async (
     navigate("/login");
   } catch (error) {
     setIsLogoutLoading(false);
+    console.log(error);
+  }
+};
+
+// Create an async thunk for logging in
+export const refreshUserFetch = async (dispatch) => {
+  try {
+    const response = await apiGetUserPrivateByUserId();
+    dispatch(loginSuccess(response.data.user));
+  } catch (error) {
     console.log(error);
   }
 };
