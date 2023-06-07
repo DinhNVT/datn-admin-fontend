@@ -15,6 +15,8 @@ import facebookIcon from "../../../assets/images/facebook.png";
 import instagramIcon from "../../../assets/images/instagram.png";
 import youtubeIcon from "../../../assets/images/youtube.png";
 import tiktokIcon from "../../../assets/images/tiktok.png";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUserFetch } from "../../../stores/apiAuthRequest";
 
 const AccountEdit = () => {
   const params = useParams();
@@ -26,11 +28,16 @@ const AccountEdit = () => {
     setIsShowModal("");
   };
 
+  const userStore = useSelector((state) => state?.auth?.login);
+  const dispatch = useDispatch();
   const getUserByUserId = async (id) => {
     try {
       const res = await apiGetUserById(id);
       if (res.data.user) {
         setUser(res.data.user);
+        if (userStore?.user?._id === res.data.user._id) {
+          refreshUserFetch(dispatch);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -39,6 +46,7 @@ const AccountEdit = () => {
 
   useEffect(() => {
     getUserByUserId(params.id);
+    // eslint-disable-next-line
   }, [params.id]);
   return (
     <div className="account-edit-container">
