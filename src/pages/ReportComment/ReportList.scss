@@ -1,6 +1,6 @@
-@import "../../../assets/AppStyles/variables.scss";
+@import "../../assets/AppStyles/variables.scss";
 
-.post-list-container {
+.report-list-container {
   .header {
     margin: 0px 10px;
     padding: 20px 0;
@@ -43,20 +43,6 @@
             }
           }
         }
-
-        .btn-write-post {
-          @include button-black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          .icon {
-            color: white;
-            vertical-align: middle;
-            font-size: 24px;
-            margin-right: 8px;
-          }
-        }
       }
     }
   }
@@ -84,7 +70,7 @@
           color: white;
         }
 
-        &.btn-unblock-all {
+        &.btn-resolve-all {
           background-color: $primary-normal;
           color: white;
         }
@@ -103,45 +89,24 @@
     .ant-table-tbody {
       font-size: 16px;
       .ant-table-cell {
-        .thumbnail-name {
-          display: flex;
-          align-items: center;
+        .content {
           max-width: 400px;
-
-          .thumbnail {
-            width: 70px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid $border-color;
-            background-color: white;
-          }
-
-          span {
-            margin-left: 8px;
-            font-size: 16px;
-          }
+          display: block;
         }
 
         .tag {
           padding: 6px 16px;
           border-radius: 500px;
 
-          &.published {
+          &.resolved {
             background-color: $success-100;
             color: $success-500;
             display: inline-block;
           }
 
-          &.draft {
+          &.pending {
             background-color: $warning-100;
             color: $warning-500;
-            display: inline-block;
-          }
-
-          &.blocked {
-            background-color: $error-100;
-            color: $error-500;
             display: inline-block;
           }
         }
@@ -162,11 +127,11 @@
         border-radius: 2px;
         transition: all 0.25s ease-in-out;
 
-        &.icon-edit {
-          color: $tag-color-4;
+        &.icon-resolve {
+          color: $success-400;
 
           &:hover {
-            background-color: $icon-edit-color-hover;
+            background-color: $success-100;
           }
         }
 
@@ -178,11 +143,11 @@
           }
         }
 
-        &.icon-dot {
-          color: $gray-600;
+        &.icon-delete {
+          color: $error-600;
 
           &:hover {
-            background-color: $gray-200;
+            background-color: $error-200;
           }
         }
       }
@@ -217,17 +182,5 @@
         }
       }
     }
-  }
-
-  .loader2 {
-    width: 24px;
-    height: 24px;
-    border: 3px solid $gray-700;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    vertical-align: top;
   }
 }

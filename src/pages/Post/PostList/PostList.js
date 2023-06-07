@@ -14,6 +14,7 @@ import {
   apiUnBlockMultiplePosts,
 } from "../../../apis/post";
 import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineClose } from "react-icons/md";
 
 const PostList = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const PostList = () => {
   const getAllPosts = async () => {
     try {
       const res = await apiGetAllPostsByAdmin();
-      if (res.data.posts.length > 0) {
+      if (res.data.posts.length >= 0) {
         const modifiedPosts = res.data.posts.map((post) => {
           return { ...post, key: post._id };
         });
@@ -73,7 +74,6 @@ const PostList = () => {
     selectedRowKeys,
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedRowKeys(selectedRowKeys);
-      console.log(selectedRowKeys, selectedRows);
     },
   };
 
@@ -363,6 +363,14 @@ const PostList = () => {
                 autoComplete="off"
                 required
               />
+              {!!keyword && (
+                <MdOutlineClose
+                  onClick={() => {
+                    setKeyword("");
+                  }}
+                  className={"icon-search"}
+                />
+              )}
             </div>
             <button
               onClick={() => {
@@ -375,7 +383,7 @@ const PostList = () => {
           </div>
         </div>
       </div>
-      {posts.length > 0 && (
+      {posts.length >= 0 && (
         <div className="table">
           {selectedRowKeys.length > 0 && (
             <div className="btn-list-action">

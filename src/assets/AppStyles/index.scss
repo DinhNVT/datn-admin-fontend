@@ -105,6 +105,7 @@ h6 {
   padding: 4px 16px;
   background-color: white;
   color: $gray-800;
+  min-width: 90px;
 
   &:hover {
     border-color: $border-color !important;
@@ -116,6 +117,7 @@ h6 {
   @include button-black;
   height: auto;
   padding: 4px 16px;
+  min-width: 90px;
 
   &:hover {
     border-color: $border-color !important;
