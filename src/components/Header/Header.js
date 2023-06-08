@@ -3,11 +3,14 @@ import "./Header.scss";
 import avtDefault from "../../assets/images/avatar_default.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
+import { BsArrowRight } from "react-icons/bs";
+import { CgMenuLeftAlt } from "react-icons/cg";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserFetch } from "../../stores/apiAuthRequest";
 import Loader2 from "../Loader2/Loader2";
 import { ACCOUNT_PATH } from "../../routes/routers.constant";
+import { largeClick, smallClick } from "../../stores/scaleSidebarSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,12 +25,26 @@ const Header = () => {
 
   const { user } = useSelector((state) => state?.auth?.login);
 
+  const { status } = useSelector((state) => state?.scale_sidebar);
+
+  const handleClickZoom = () => {
+    if (!status) dispatch(smallClick());
+    else dispatch(largeClick());
+  };
+
   return (
-    <div className="header-container">
-      <div className="header-content">
+    <div className={`header-container  ${status ? "small" : "large"}`}>
+      <div onClick={handleClickZoom} className="btn-zoom zoom-out">
+        {status ? (
+          <BsArrowRight className={"icon"} />
+        ) : (
+          <CgMenuLeftAlt className={"icon"} />
+        )}
+      </div>
+      <div className={`header-content`}>
         <Link className="info-user">
           <div className="information">
-            <h4>{user.name}</h4>
+            <h4>{user?.name}</h4>
             <p>Admin</p>
           </div>
           <div className="avt">
@@ -36,7 +53,7 @@ const Header = () => {
           <div className="dropdown-info">
             <ul>
               <li>
-                <Link to={ACCOUNT_PATH.EDIT.replace(":id", user._id)}>
+                <Link to={ACCOUNT_PATH.EDIT.replace(":id", user?._id)}>
                   <FiUser className={"icon"} /> Hồ sơ
                 </Link>
               </li>

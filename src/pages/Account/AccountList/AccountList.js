@@ -52,7 +52,7 @@ const AccountList = () => {
       const res = await apiGetAllUsers();
       if (res.data.users.length >= 0) {
         const modifiedUsers = res.data.users.map((user) => {
-          return { ...user, key: user._id };
+          return { ...user, key: user?._id };
         });
         setUsers(modifiedUsers);
       }

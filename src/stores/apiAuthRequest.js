@@ -25,6 +25,7 @@ export const checkRefreshTokenFetch = async (dispatch) => {
   try {
     const response = await refreshToken();
     localStorage.setItem("accessToken", response.data.accessToken);
+    refreshUserFetch();
   } catch (error) {
     if (
       error.response &&

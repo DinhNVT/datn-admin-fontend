@@ -1,4 +1,4 @@
-@import '../../assets/AppStyles/variables.scss';
+@import "../../assets/AppStyles/variables.scss";
 
 .side-bar-container {
   position: fixed;
@@ -7,14 +7,35 @@
   z-index: 999;
   left: 0;
   background-color: $primary-darker;
-  width: 270px;
   overflow: hidden;
 
-  .side-bar-content { 
-    padding: 30px 30px;
+  &.small {
+    width: 70px;
+    overflow: unset;
+  }
+
+  &.large {
+    width: 270px;
+  }
+
+  .side-bar-content {
+    &.small {
+      padding: 20px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &.large {
+      padding: 30px 30px;
+    }
 
     .logo {
       width: 200px;
+    }
+
+    .logo-circle {
+      width: 50px;
     }
 
     .ul-menu {
@@ -24,7 +45,6 @@
       li {
         position: relative;
         margin-bottom: 8px;
-        border-radius: 4px;
         transition: all 0.4s ease-in-out;
 
         a {
@@ -37,18 +57,62 @@
           padding: 12px 20px;
           border-radius: 4px;
 
+          &.small {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.4s ease-in-out;
+
+            .hover-icon {
+              background-color: none;
+              position: absolute;
+              justify-content: flex-start;
+              align-items: center;
+              right: 0px;
+              top: 0;
+              z-index: 9999;
+              height: 100%;
+              transform: translateX(100%);
+              padding-right: 16px;
+              border-radius: 0 4px 4px 0;
+              transition: all 0.4s ease-in-out;
+              min-width: 150px;
+              display: flex;
+              opacity: 0;
+              visibility: hidden;
+            }
+
+            &:hover .hover-icon {
+              display: flex;
+              opacity: 1;
+              visibility: visible;
+              background-color: $primary-normal;
+            }
+          }
+
           .icon {
             vertical-align: middle;
-            margin-right: 8px;
             font-size: 20px;
+
+            &.small {
+              margin-right: 0px;
+              font-size: 30px;
+            }
+
+            &.large {
+              margin-right: 8px;
+            }
           }
         }
 
-        &.active {
+        &.active a {
           background-color: $primary-normal;
         }
 
-        &:hover {
+        &:hover a {
           background-color: $primary-normal;
         }
       }
