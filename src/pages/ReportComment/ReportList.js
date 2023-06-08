@@ -22,8 +22,10 @@ const ReportList = () => {
   const [keyword, setKeyword] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllReportComments = async () => {
+    setIsLoading(true);
     try {
       const res = await apiGetAllReportComments();
       if (res.data.reportComments.length >= 0) {
@@ -34,8 +36,10 @@ const ReportList = () => {
         );
         setReportComments(modifiedReportComments);
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -316,6 +320,7 @@ const ReportList = () => {
             pagination={{
               pageSize: 10,
             }}
+            loading={isLoading}
           />
         </div>
       )}

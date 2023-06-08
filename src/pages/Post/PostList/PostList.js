@@ -24,6 +24,8 @@ const PostList = () => {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [showDropdownPostId, setShowDropdownPostId] = useState("");
   const dropdownRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -38,6 +40,7 @@ const PostList = () => {
   }, [dropdownRef]);
 
   const getAllPosts = async () => {
+    setIsLoading(true);
     try {
       const res = await apiGetAllPostsByAdmin();
       if (res.data.posts.length >= 0) {
@@ -46,8 +49,10 @@ const PostList = () => {
         });
         setPosts(modifiedPosts);
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -421,6 +426,7 @@ const PostList = () => {
             }}
             dataSource={handleSearch()}
             columns={columns}
+            loading={isLoading}
             pagination={{
               pageSize: 10,
             }}
