@@ -12,14 +12,17 @@ import {
 
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
+import scaleSidebarSlice from "./scaleSidebarSlice";
 const persistConfig = {
   key: "root",
-  version: 2,
+  version: 3,
   storage,
+  blacklist: ["scale_sidebar"],
 };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  scale_sidebar: scaleSidebarSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -3,15 +3,37 @@
 .header-container {
   position: fixed;
   z-index: 998;
-  left: 270px;
   right: 0;
   background-color: $primary-darker;
   height: 60px;
   top: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   color: white;
+
+  &.small {
+    left: 70px;
+  }
+
+  &.large {
+    left: 270px;
+  }
+
+  .btn-zoom {
+    color: white;
+    margin-left: 24px;
+    cursor: pointer;
+    .icon {
+      font-size: 36px;
+      opacity: 0.8;
+      transition: all 0.25s ease-in-out;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 
   .header-content {
     padding: 10px 30px;

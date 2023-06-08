@@ -15,17 +15,30 @@ import {
   POST_PATH,
   REPORT_COMMENT_PATH,
 } from "../../routes/routers.constant";
+import { useSelector } from "react-redux";
+import circleLogo from "../../assets/images/circle_logo.png";
 
 const SideBar = () => {
   const location = useLocation();
+  const { status } = useSelector((state) => state?.scale_sidebar);
+
   return (
-    <div className="side-bar-container">
-      <div className="side-bar-content">
-        <img className="logo" src={logoHorizontal} alt="" />
+    <div className={`side-bar-container ${status ? "small" : "large"}`}>
+      <div className={`side-bar-content ${status ? "small" : "large"}`}>
+        {status ? (
+          <img className="logo-circle" src={circleLogo} alt="" />
+        ) : (
+          <img className="logo" src={logoHorizontal} alt="" />
+        )}
         <ul className="ul-menu">
           <li className={location.pathname === "/" ? "active" : ""}>
-            <Link to={"/"}>
-              <RxDashboard className={"icon"} /> Dashboard
+            <Link className={`${status ? "small" : ""}`} to={"/"}>
+              <RxDashboard className={`icon ${status ? "small" : "large"}`} />{" "}
+              {status ? (
+                <span className="hover-icon">Dashboard</span>
+              ) : (
+                "Dashboard"
+              )}
             </Link>
           </li>
           <li
@@ -33,8 +46,15 @@ const SideBar = () => {
               location.pathname.includes(ACCOUNT_PATH.LIST) ? "active" : ""
             }
           >
-            <Link to={ACCOUNT_PATH.LIST}>
-              <HiOutlineUsers className={"icon"} /> Tài khoản
+            <Link className={`${status ? "small" : ""}`} to={ACCOUNT_PATH.LIST}>
+              <HiOutlineUsers
+                className={`icon ${status ? "small" : "large"}`}
+              />
+              {status ? (
+                <span className="hover-icon">Tài khoản</span>
+              ) : (
+                "Tài khoản"
+              )}
             </Link>
           </li>
           <li
@@ -42,8 +62,18 @@ const SideBar = () => {
               location.pathname.includes(CATEGORY_PATH.LIST) ? "active" : ""
             }
           >
-            <Link to={CATEGORY_PATH.LIST}>
-              <MdOutlineCategory className={"icon"} /> Danh mục
+            <Link
+              className={`${status ? "small" : ""}`}
+              to={CATEGORY_PATH.LIST}
+            >
+              <MdOutlineCategory
+                className={`icon ${status ? "small" : "large"}`}
+              />
+              {status ? (
+                <span className="hover-icon">Danh mục</span>
+              ) : (
+                "Danh mục"
+              )}
             </Link>
           </li>
           <li
@@ -51,8 +81,13 @@ const SideBar = () => {
               location.pathname.includes(POST_PATH.LIST) ? "active" : ""
             }
           >
-            <Link to={POST_PATH.LIST}>
-              <FiEdit className={"icon"} /> Bài viết
+            <Link className={`${status ? "small" : ""}`} to={POST_PATH.LIST}>
+              <FiEdit className={`icon ${status ? "small" : "large"}`} />{" "}
+              {status ? (
+                <span className="hover-icon">Bài viết</span>
+              ) : (
+                "Bài viết"
+              )}
             </Link>
           </li>
           <li
@@ -62,8 +97,16 @@ const SideBar = () => {
                 : ""
             }
           >
-            <Link to={REPORT_COMMENT_PATH.LIST}>
-              <GoReport className={"icon"} /> Bình luận xấu
+            <Link
+              className={`${status ? "small" : ""}`}
+              to={REPORT_COMMENT_PATH.LIST}
+            >
+              <GoReport className={`icon ${status ? "small" : "large"}`} />{" "}
+              {status ? (
+                <span className="hover-icon">Bình luận xấu</span>
+              ) : (
+                "Bình luận xấu"
+              )}
             </Link>
           </li>
           <li
@@ -71,8 +114,11 @@ const SideBar = () => {
               location.pathname.includes(CONTACT_PATH.LIST) ? "active" : ""
             }
           >
-            <Link to={CONTACT_PATH.LIST}>
-              <AiOutlineContacts className={"icon"} /> Liên hệ
+            <Link className={`${status ? "small" : ""}`} to={CONTACT_PATH.LIST}>
+              <AiOutlineContacts
+                className={`icon ${status ? "small" : "large"}`}
+              />
+              {status ? <span className="hover-icon">Liên hệ</span> : "Liên hệ"}
             </Link>
           </li>
         </ul>
