@@ -30,6 +30,7 @@ const AccountList = () => {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [showDropdownUserId, setShowDropdownUserId] = useState("");
   const dropdownRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -46,6 +47,7 @@ const AccountList = () => {
   const { user } = useSelector((state) => state?.auth?.login);
 
   const getAllUsers = async () => {
+    setIsLoading(true);
     try {
       const res = await apiGetAllUsers();
       if (res.data.users.length >= 0) {
@@ -54,8 +56,10 @@ const AccountList = () => {
         });
         setUsers(modifiedUsers);
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -501,6 +505,7 @@ const AccountList = () => {
               type: "checkbox",
               ...rowSelection,
             }}
+            loading={isLoading}
             dataSource={handleSearch()}
             columns={columns}
             pagination={{

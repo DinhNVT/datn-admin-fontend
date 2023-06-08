@@ -22,8 +22,10 @@ const ContactList = () => {
   const [keyword, setKeyword] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllContacts = async () => {
+    setIsLoading(true);
     try {
       const res = await apiGetAllContacts();
       if (res.data.contacts.length >= 0) {
@@ -32,8 +34,10 @@ const ContactList = () => {
         });
         setContacts(modifiedContacts);
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -303,6 +307,7 @@ const ContactList = () => {
             pagination={{
               pageSize: 10,
             }}
+            loading={isLoading}
           />
         </div>
       )}

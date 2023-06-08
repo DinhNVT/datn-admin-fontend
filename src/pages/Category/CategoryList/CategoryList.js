@@ -31,6 +31,7 @@ const CategoryList = () => {
   const [keyword, setKeyword] = useState("");
   const [isShowModalView, setIsShowModalView] = useState(false);
   const [categoryIdView, setCategoryIdView] = useState("");
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const closeModalView = () => {
     setIsShowModalView(false);
@@ -41,6 +42,7 @@ const CategoryList = () => {
   };
 
   const getAllCategories = async () => {
+    setIsLoadingData(true);
     try {
       const res = await apiGetAllCategories();
       if (res.data.categories.length >= 0) {
@@ -49,8 +51,10 @@ const CategoryList = () => {
         });
         setCategories(modifiedCategories);
       }
+      setIsLoadingData(false);
     } catch (error) {
       console.log(error);
+      setIsLoadingData(false);
     }
   };
 
@@ -344,6 +348,7 @@ const CategoryList = () => {
             <Table
               dataSource={handleSearch()}
               columns={columns}
+              loading={isLoadingData}
               pagination={{
                 pageSize: 10,
               }}
