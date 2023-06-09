@@ -64,10 +64,10 @@ const FullName = (props) => {
       } else if (props?.status === "bio") {
         data = { bio: valueText };
       }
-      await apiUpdateUserProfile(props.user._id, props?.status, data);
+      await apiUpdateUserProfile(props.user?._id, props?.status, data);
       setIsLoading(false);
       props.closeModal();
-      props.getUserByUserId(props.user._id);
+      props.getUserByUserId(props.user?._id);
       successAlert("Cập nhật thành công", "", 1500);
     } catch (error) {
       console.log(error);

@@ -32,5 +32,14 @@
       align-items: center;
       gap: 8px;
     }
+
+    .status {
+      .pending {
+        color: $warning-400;
+      }
+      .resolved {
+        color: $primary-normal;
+      }
+    }
   }
 }

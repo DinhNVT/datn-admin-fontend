@@ -26,5 +26,18 @@
         gap: 8px;
       }
     }
+
+    .link-post {
+      text-decoration: underline;
+    }
+
+    .status {
+      .pending {
+        color: $warning-400;
+      }
+      .resolved {
+        color: $primary-normal;
+      }
+    }
   }
 }

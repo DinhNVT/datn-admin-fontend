@@ -69,8 +69,8 @@ const AccountList = () => {
 
   const handleSearch = () => {
     const filteredAccounts = users.filter((user) => {
-      const nameMatch = user.name.toLowerCase().includes(keyword.toLowerCase());
-      const emailMatch = user.email
+      const nameMatch = user?.name.toLowerCase().includes(keyword.toLowerCase());
+      const emailMatch = user?.email
         .toLowerCase()
         .includes(keyword.toLowerCase());
       return nameMatch || emailMatch;
@@ -86,7 +86,7 @@ const AccountList = () => {
       console.log(selectedRowKeys, selectedRows);
     },
     getCheckboxProps: (record) => ({
-      disabled: record._id === user._id,
+      disabled: record._id === user?._id,
       _id: record._id,
     }),
   };
@@ -104,7 +104,7 @@ const AccountList = () => {
   };
 
   const handleBlockUser = async (status, id) => {
-    if (user._id === id) {
+    if (user?._id === id) {
       errorAlert("Đã xảy ra lỗi", "Bạn không được chặn chính bạn");
       setIsShowDropDown(false);
       return;
@@ -167,7 +167,7 @@ const AccountList = () => {
   };
 
   const handleChangeRoleUser = async (role, id) => {
-    if (user._id === id) {
+    if (user?._id === id) {
       errorAlert("Đã xảy ra lỗi", "Bạn không được đổi quyền chính bạn");
       setIsShowDropDown(false);
       return;

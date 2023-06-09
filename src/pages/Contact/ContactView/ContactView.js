@@ -36,7 +36,13 @@ const ContactView = (props) => {
             </div>
             <div className="status">
               <h3>Trạng thái: </h3>
-              <p>
+              <p
+                className={`${
+                  props.contact?.status === "pending"
+                    ? "pending"
+                    : "resolved"
+                }`}
+              >
                 {props.contact?.status === "pending"
                   ? "Chưa giải quyết"
                   : "Đã giải quyết"}

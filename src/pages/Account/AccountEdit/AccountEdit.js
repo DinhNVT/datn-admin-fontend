@@ -23,6 +23,9 @@ const AccountEdit = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(false);
+  const [isFetchUser, setIsFetchUser] = useState(true);
+
   const [isShowModal, setIsShowModal] = useState("");
   const closeModal = () => {
     setIsShowModal("");
@@ -30,17 +33,22 @@ const AccountEdit = () => {
 
   const userStore = useSelector((state) => state?.auth?.login);
   const dispatch = useDispatch();
+
   const getUserByUserId = async (id) => {
     try {
+      setUserLoading(true);
       const res = await apiGetUserById(id);
       if (res.data.user) {
         setUser(res.data.user);
-        if (userStore?.user?._id === res.data.user._id) {
+        if (userStore?.user?._id === res.data.user?._id) {
           refreshUserFetch(dispatch);
         }
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setUserLoading(false);
+      setIsFetchUser(false);
     }
   };
 
@@ -92,7 +100,7 @@ const AccountEdit = () => {
       </div>
       <div className="edit-content">
         <h1 className="title">Chỉnh sửa thông tin cá nhân</h1>
-        {user && (
+        {user && !isFetchUser && (
           <div className="edit-profile-content grid-container">
             <div
               onClick={() => {
@@ -147,20 +155,36 @@ const AccountEdit = () => {
               >
                 <h4>Mạng xã hội</h4>
                 <div className="icon-list">
-                  {user.social.facebook && <img src={facebookIcon} alt="" />}
-                  {user.social.instagram && <img src={instagramIcon} alt="" />}
-                  {user.social.youtube && <img src={youtubeIcon} alt="" />}
-                  {user.social.tiktok && <img src={tiktokIcon} alt="" />}
-                  {!user.social.facebook &&
-                    !user.social.instagram &&
-                    !user.social.youtube &&
-                    !user.social.tiktok && <p>Không có mạng xã hội</p>}
+                  {user?.social.facebook && <img src={facebookIcon} alt="" />}
+                  {user?.social.instagram && <img src={instagramIcon} alt="" />}
+                  {user?.social.youtube && <img src={youtubeIcon} alt="" />}
+                  {user?.social.tiktok && <img src={tiktokIcon} alt="" />}
+                  {!user?.social.facebook &&
+                    !user?.social.instagram &&
+                    !user?.social.youtube &&
+                    !user?.social.tiktok && <p>Không có mạng xã hội</p>}
                 </div>
               </div>
             </div>
           </div>
         )}
-        {!user && <p>Không có user này</p>}
+        {!user && !isFetchUser && (
+          <p className="not-found-text">Không có tài khoản này</p>
+        )}
+        {(userLoading || isFetchUser) && (
+          <div className="edit-profile-content grid-container">
+            <div className="avt-img">
+              <div className="img img-skeleton skeleton"></div>
+            </div>
+            <div className="info-list">
+              <div className="info-item-skeleton skeleton "></div>
+              <div className="info-item-skeleton skeleton "></div>
+              <div className="info-item-skeleton skeleton "></div>
+              <div className="info-item-skeleton skeleton "></div>
+              <div className="info-item-skeleton skeleton "></div>
+            </div>
+          </div>
+        )}
         {(isShowModal === "name" ||
           isShowModal === "username" ||
           isShowModal === "bio") && (

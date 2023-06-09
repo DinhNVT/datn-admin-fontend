@@ -11,19 +11,32 @@ import { AiOutlineEye } from "react-icons/ai";
 
 const CategoryView = (props) => {
   const [posts, setPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [isFetchPosts, setIsFetchPosts] = useState(true);
+
   const [category, setCategory] = useState("");
   const getPostsByCategoryId = async (id) => {
-    const res = await apiGetPostsByCategory(id);
-    if (res.data.posts.length > 0) {
-      setPosts(res.data.posts);
-    }
-    if (!!res.data.category) {
-      setCategory(res.data.category);
+    try {
+      setPostsLoading(true);
+      const res = await apiGetPostsByCategory(id);
+      if (res.data.posts.length > 0) {
+        setPosts(res.data.posts);
+      }
+      if (!!res.data.category) {
+        setCategory(res.data.category);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetchPosts(false);
+      setPostsLoading(false);
     }
   };
+
   useEffect(() => {
     if (!!props.id) getPostsByCategoryId(props.id);
   }, [props.id]);
+
   return (
     <div>
       <Modal
@@ -54,6 +67,7 @@ const CategoryView = (props) => {
           )}
           <div className="category-list">
             {posts.length > 0 &&
+              !isFetchPosts &&
               posts.map((post, index) => (
                 <div key={post._id} className="blog-item">
                   <div className={`status ${post.status}`}>
@@ -106,6 +120,87 @@ const CategoryView = (props) => {
                   </div>
                 </div>
               ))}
+            {posts.length <= 0 && !isFetchPosts && (
+              <p className="not-found-text">Không có bài viết nào</p>
+            )}
+            {postsLoading && isFetchPosts && (
+              <>
+                <div className="blog-item-skeleton">
+                  <div className={`status skeleton`}></div>
+                  <div className="blog-item-content">
+                    <div className="img skeleton" src="" alt="" />
+                    <div className="blog-post-info">
+                      <div className="title">
+                        <div className="title-top skeleton"></div>
+                        <div className="title-bottom skeleton"></div>
+                      </div>
+                      <div className="interact">
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                      </div>
+                      <div className="content">
+                        <div className="content-top skeleton"></div>
+                        <div className="content-middle skeleton"></div>
+                        <div className="content-bottom skeleton"></div>
+                      </div>
+                      <div className="tags">
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="blog-item-skeleton">
+                  <div className={`status skeleton`}></div>
+                  <div className="blog-item-content">
+                    <div className="img skeleton" src="" alt="" />
+                    <div className="blog-post-info">
+                      <div className="title">
+                        <div className="title-top skeleton"></div>
+                        <div className="title-bottom skeleton"></div>
+                      </div>
+                      <div className="interact">
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                        <div className="interact-item">
+                          <div className="interact-item-left skeleton"></div>
+                          <div className="interact-item-right skeleton"></div>
+                        </div>
+                      </div>
+                      <div className="content">
+                        <div className="content-top skeleton"></div>
+                        <div className="content-middle skeleton"></div>
+                        <div className="content-bottom skeleton"></div>
+                      </div>
+                      <div className="tags">
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                        <div className="item-tag skeleton"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </Modal>
