@@ -4,7 +4,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { HOME_PATH, POST_PATH } from "../../../routes/routers.constant";
 import { Breadcrumb } from "antd";
 import { RxDashboard } from "react-icons/rx";
-import NotFoundPage from "../../404/NotFoundPage";
 import { useSelector } from "react-redux";
 import {
   apiCreatePostComments,
@@ -31,9 +30,15 @@ const ViewPost = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
+
   const [post, setPost] = useState(null);
+  const [postLoading, setPostLoading] = useState(false);
+  const [isFetchPost, setIsFetchPost] = useState(true);
+
   const [postComments, setPostComments] = useState(null);
-  const [found, setFound] = useState(true);
+  const [postCommentsLoading, setPostCommentsLoading] = useState(false);
+  const [isFetchPostComments, setIsFetchPostComments] = useState(true);
+
   const [replyInputVisible, setReplyInputVisible] = useState(false);
   const [commentId, setCommentId] = useState("");
   const [subCommentId, setSubCommentId] = useState("");
@@ -77,38 +82,41 @@ const ViewPost = () => {
     };
   }, [dropdownRef]);
 
-  const getPostComment = (postId) => {
-    apiGetPostComments(postId)
-      .then((res) => {
-        if (res.data.result) {
-          setPostComments(res.data.result);
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const getPostComment = async (postId) => {
+    try {
+      setPostCommentsLoading(true);
+      const response = await apiGetPostComments(postId);
+      if (response?.data?.result) {
+        setPostComments(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setPostCommentsLoading(false);
+      setIsFetchPostComments(false);
+    }
   };
 
   const getPostDetail = useCallback(async () => {
-    const post = await apiGetDetailPostByIdAdmin(id)
-      .then((res) => {
-        if (!res.data.result) {
-          setFound(false);
-        } else {
-          setPost(res.data.result);
-          window.scrollTo(0, 0);
-          console.log(res.data.result);
-          return res.data.result;
-        }
-      })
-      .catch(() => {
-        setFound(false);
-      });
-    getPostComment(post._id);
+    setPostLoading(true);
+    try {
+      const response = await apiGetDetailPostByIdAdmin(id);
+      if (!response.data.result) {
+        console.log(response);
+      } else {
+        setPost(response.data.result);
+        window.scrollTo(0, 0);
+        getPostComment(response?.data?.result?._id);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetchPost(false);
+      setPostLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
-    setFound(true);
     getPostDetail();
   }, [id, getPostDetail]);
 
@@ -141,7 +149,7 @@ const ViewPost = () => {
             setReplyInputVisible(false);
             setCommentId("");
             setSubCommentInput("");
-            getPostComment(post._id);
+            getPostComment(post?._id);
             setIsLoadingSubComment(false);
           } else {
             errorAlert("Lỗi", "Xin vui lòng thử lại sau");
@@ -163,13 +171,13 @@ const ViewPost = () => {
     } else {
       setIsLoadingComment(true);
       apiCreatePostComments("base", {
-        postId: post._id,
+        postId: post?._id,
         comment: commentInput,
       })
         .then((res) => {
           if (res.data.result) {
             setCommentInput("");
-            getPostComment(post._id);
+            getPostComment(post?._id);
             setIsLoadingComment(false);
           } else {
             errorAlert("Lỗi", "Xin vui lòng thử lại sau");
@@ -218,7 +226,7 @@ const ViewPost = () => {
       .then((res) => {
         if (res.data.result) {
           setSubCommentInput("");
-          getPostComment(post._id);
+          getPostComment(post?._id);
           setIsLoadingEditBaseComment(false);
           setIsBaseEdit(false);
           setReplyInputVisible(false);
@@ -241,7 +249,7 @@ const ViewPost = () => {
       .then((res) => {
         if (res.data.result) {
           setSubCommentInput("");
-          getPostComment(post._id);
+          getPostComment(post?._id);
           setIsLoadingEditBaseComment(false);
           setIsBaseEdit(false);
           setReplyInputVisible(false);
@@ -264,7 +272,7 @@ const ViewPost = () => {
     };
 
     const deletePostInState = () => {
-      getPostComment(post._id);
+      getPostComment(post?._id);
     };
 
     deleteAlert(
@@ -274,10 +282,6 @@ const ViewPost = () => {
       deletePostInState
     );
   };
-
-  if (!found) {
-    return <NotFoundPage />;
-  }
   return (
     <div className="post-edit-container">
       <div className="header">
@@ -322,7 +326,7 @@ const ViewPost = () => {
       </div>
       <div className="edit-content">
         <div className="post-detail-content">
-          {!!post && (
+          {!!post && !isFetchPost && (
             <div className="post-content">
               <div className="post-content-header">
                 <img src={post?.thumbnail_url} alt={post?.title} />
@@ -359,7 +363,38 @@ const ViewPost = () => {
               </div>
             </div>
           )}
-          {!!post && (
+          {(isFetchPost || postLoading) && (
+            <div className="post-content-skeleton">
+              <div className="post-content-header">
+                <div className="thumbnail-skeleton skeleton"></div>
+                <div className="title-skeleton skeleton"></div>
+                <div className="title-skeleton small skeleton"></div>
+                <div className="interact">
+                  <div className="interact-item">
+                    <div className="interact-item-left skeleton"></div>
+                    <div className="interact-item-right skeleton"></div>
+                  </div>
+                  <div className="interact-item">
+                    <div className="interact-item-left skeleton"></div>
+                    <div className="interact-item-right skeleton"></div>
+                  </div>
+                  <div className="interact-item">
+                    <div className="interact-item-left skeleton"></div>
+                    <div className="interact-item-right skeleton"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="content-skeleton">
+                <div className="content-text skeleton"></div>
+                <div className="content-text skeleton"></div>
+                <div className="content-text skeleton"></div>
+                <div className="content-text skeleton"></div>
+                <div className="content-text skeleton"></div>
+                <div className="content-text skeleton"></div>
+              </div>
+            </div>
+          )}
+          {!!post && !isFetchPost && (
             <div className="author">
               <div className="title">
                 <h1>Tác giả</h1>
@@ -422,8 +457,27 @@ const ViewPost = () => {
               </div>
             </div>
           )}
-
-          {!!postComments && (
+          {isFetchPost && postLoading && (
+            <div className="author-skeleton">
+              <div className="title skeleton"></div>
+              <div className="author-content">
+                <div className="author-content-info">
+                  <div className="left skeleton"></div>
+                  <div className="right">
+                    <div className="name skeleton"></div>
+                    <div className="bio skeleton"></div>
+                    <div className="social">
+                      <div className="icon skeleton"></div>
+                      <div className="icon skeleton"></div>
+                      <div className="icon skeleton"></div>
+                      <div className="icon skeleton"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {!!postComments && !isFetchPostComments && (
             <div className="comment">
               <div className="title">
                 <h1>Bình luận</h1>
@@ -764,6 +818,42 @@ const ViewPost = () => {
                     </button>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+          {(isFetchPostComments || postCommentsLoading) && (
+            <div className="comment-skeleton">
+              <div className="title skeleton"></div>
+              <div className="label-comment skeleton"></div>
+              <div className="input-comment skeleton"></div>
+              <div className="button-comment skeleton"></div>
+              <div className="base-comment">
+                <div className="left skeleton"></div>
+                <div className="right">
+                  <div className="name-time">
+                    <div className="name skeleton"></div>
+                    <div className="time skeleton"></div>
+                  </div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="button-base-comment skeleton"></div>
+                </div>
+                <div></div>
+              </div>
+              <div className="base-comment">
+                <div className="left skeleton"></div>
+                <div className="right">
+                  <div className="name-time">
+                    <div className="name skeleton"></div>
+                    <div className="time skeleton"></div>
+                  </div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="comment-content skeleton"></div>
+                  <div className="button-base-comment skeleton"></div>
+                </div>
+                <div></div>
               </div>
             </div>
           )}

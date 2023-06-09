@@ -30,16 +30,29 @@ const EditPost = () => {
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [image, setImage] = useState("");
+
   const [options, setOptions] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [isFetchCategories, setIsFetchCategories] = useState(true);
+
   const [categoryId, setCategoryId] = useState("");
   const [tags, setTags] = useState([]);
   const inputRef = useRef(null);
   const [filteredTags, setFilteredTags] = useState([]);
+
   const [allTags, setAllTags] = useState([]);
+  const [allTagsLoading, setAllTagsLoading] = useState(false);
+  const [isFetchAllTags, setIsFetchAllTags] = useState(true);
+
+  const [post, setPost] = useState(null);
+  const [postLoading, setPostLoading] = useState(false);
+  const [isFetchPost, setIsFetchPost] = useState(true);
 
   const getPostDetailByRole = async (id) => {
     try {
+      setPostLoading(true);
       const res = await apiGetDetailPostByRole(id);
+      setPost(res.data.result);
       setTitle(res.data.result.title);
       setCategoryId(res.data.result.categoryId);
       setTags(res.data.result.tags.map((tag) => tag.name));
@@ -47,17 +60,24 @@ const EditPost = () => {
       setContent(res.data.result.content);
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setPostLoading(false);
+      setIsFetchPost(false);
     }
   };
 
   const getAllTags = async () => {
     try {
+      setAllTagsLoading(true);
       const res = await apiGetAllTags();
       if (res.data.tags.length > 0) {
         setAllTags(res.data.tags);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setAllTagsLoading(false);
+      setIsFetchAllTags(false);
     }
   };
 
@@ -77,12 +97,20 @@ const EditPost = () => {
   };
 
   const renderAllCategories = async () => {
-    const categories = await apiGetAllCategories();
-    const option = categories.data.categories.map((category) => ({
-      id: category._id,
-      name: category.name,
-    }));
-    setOptions(option);
+    try {
+      setCategoriesLoading(true);
+      const categories = await apiGetAllCategories();
+      const option = categories.data.categories.map((category) => ({
+        id: category._id,
+        name: category.name,
+      }));
+      setOptions(option);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setCategoriesLoading(false);
+      setIsFetchCategories(false);
+    }
   };
 
   //Tag
@@ -244,169 +272,207 @@ const EditPost = () => {
       </div>
       <div className="edit-content">
         <h1 className="title">Chỉnh sửa thông tin bài viết</h1>
-        <div className="edit-post-content grid-container">
-          <div className="btn-post-group">
-            <button
-              onClick={() => {
-                handleSubmitPost("draft");
-              }}
-              disabled={isLoading === true}
-              className="btn-item-post btn-save"
-            >
-              {isLoading === true && status === "draft" ? (
-                <Loader />
-              ) : (
-                "Lưu bản nháp"
-              )}
-            </button>
-            <button
-              onClick={() => {
-                handleSubmitPost("published");
-              }}
-              disabled={isLoading === true}
-              className="btn-item-post btn-post"
-            >
-              {isLoading === true && status === "published" ? (
-                <Loader />
-              ) : (
-                "Lưu bài viết"
-              )}
-            </button>
-          </div>
-          <form>
-            <p className="input-container">
-              <label>
-                Tiêu đề*
-                <br />
-                <span className="form-control-input" data-name="title">
-                  <input
-                    size="40"
-                    className="input"
-                    aria-required="true"
-                    aria-invalid="true"
-                    value={title}
-                    onChange={handleTitleChange}
-                    type="text"
-                    name="title"
-                    placeholder="Nhập tiêu đề"
-                    required
-                  />
-                </span>
-              </label>
-            </p>
-            <p className="input-container">
-              <label>
-                Chủ đề*
-                <br />
-                <span className="form-control-input" data-name="title">
-                  <select
-                    id="cars"
-                    value={categoryId}
-                    onChange={handleChangeCategoryId}
-                    className="input-select"
-                  >
-                    {options?.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </span>
-              </label>
-            </p>
-            <p className="tag-container">
-              <span className="title">
-                {`Thêm thẻ (nhấn enter để thêm)*`}
-                <br />
-                <span className="form-control-input" data-name="title">
-                  {tags.map((tag, index) => (
-                    <span key={tag} className="tag-display">
-                      <span>
-                        <span className={`tag-item tag-${index + 1}`}>#</span>
-                        {` ${tag}`}
-                      </span>
-                      <Link onClick={() => handleClose(tag)}>
-                        <IoClose className={"close"} />
-                      </Link>
+        {options.length > 0 &&
+          post &&
+          !isFetchAllTags &&
+          !isFetchCategories &&
+          !isFetchPost && (
+            <div className="edit-post-content grid-container">
+              <div className="btn-post-group">
+                <button
+                  onClick={() => {
+                    handleSubmitPost("draft");
+                  }}
+                  disabled={isLoading === true}
+                  className="btn-item-post btn-save"
+                >
+                  {isLoading === true && status === "draft" ? (
+                    <Loader />
+                  ) : (
+                    "Lưu bản nháp"
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    handleSubmitPost("published");
+                  }}
+                  disabled={isLoading === true}
+                  className="btn-item-post btn-post"
+                >
+                  {isLoading === true && status === "published" ? (
+                    <Loader />
+                  ) : (
+                    "Lưu bài viết"
+                  )}
+                </button>
+              </div>
+              <form>
+                <p className="input-container">
+                  <label>
+                    Tiêu đề*
+                    <br />
+                    <span className="form-control-input" data-name="title">
+                      <input
+                        size="40"
+                        className="input"
+                        aria-required="true"
+                        aria-invalid="true"
+                        value={title}
+                        onChange={handleTitleChange}
+                        type="text"
+                        name="title"
+                        placeholder="Nhập tiêu đề"
+                        required
+                      />
                     </span>
-                  ))}
-                  <div className="input-tag-container">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      className="input-tag"
-                      placeholder="Thêm thẻ..."
-                      value={inputValue}
-                      onChange={handleInputChange}
-                      onBlur={() => {
-                        if (filteredTags.length === 0) {
-                          handleInputConfirm();
-                        }
-                      }}
-                      onKeyDown={handleKeyDown}
-                    />
-                    {!!filteredTags.length > 0 && !!inputValue ? (
-                      <div className="dropdown-tag">
-                        <ul>
-                          {filteredTags.map((tag, index) => (
-                            <li
-                              onClick={() => {
-                                if (tags.indexOf(tag.name) === -1) {
-                                  setTags([...tags, tag.name]);
-                                  inputRef.current?.focus();
-                                }
-                                setInputValue("");
-                              }}
-                              key={tag._id}
-                            >
-                              {truncateTitle(tag.name, 30)}
-                            </li>
-                          ))}
-                        </ul>
+                  </label>
+                </p>
+                <p className="input-container">
+                  <label>
+                    Chủ đề*
+                    <br />
+                    <span className="form-control-input" data-name="title">
+                      <select
+                        id="cars"
+                        value={categoryId}
+                        onChange={handleChangeCategoryId}
+                        className="input-select"
+                      >
+                        {options?.map((option) => (
+                          <option key={option.id} value={option.id}>
+                            {option.name}
+                          </option>
+                        ))}
+                      </select>
+                    </span>
+                  </label>
+                </p>
+                <p className="tag-container">
+                  <span className="title">
+                    {`Thêm thẻ (nhấn enter để thêm)*`}
+                    <br />
+                    <span className="form-control-input" data-name="title">
+                      {tags.map((tag, index) => (
+                        <span key={tag} className="tag-display">
+                          <span>
+                            <span className={`tag-item tag-${index + 1}`}>
+                              #
+                            </span>
+                            {` ${tag}`}
+                          </span>
+                          <Link onClick={() => handleClose(tag)}>
+                            <IoClose className={"close"} />
+                          </Link>
+                        </span>
+                      ))}
+                      <div className="input-tag-container">
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          className="input-tag"
+                          placeholder="Thêm thẻ..."
+                          value={inputValue}
+                          onChange={handleInputChange}
+                          onBlur={() => {
+                            if (filteredTags.length === 0) {
+                              handleInputConfirm();
+                            }
+                          }}
+                          onKeyDown={handleKeyDown}
+                        />
+                        {!!filteredTags.length > 0 && !!inputValue ? (
+                          <div className="dropdown-tag">
+                            <ul>
+                              {filteredTags.map((tag, index) => (
+                                <li
+                                  onClick={() => {
+                                    if (tags.indexOf(tag.name) === -1) {
+                                      setTags([...tags, tag.name]);
+                                      inputRef.current?.focus();
+                                    }
+                                    setInputValue("");
+                                  }}
+                                  key={tag._id}
+                                >
+                                  {truncateTitle(tag.name, 30)}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
                       </div>
-                    ) : null}
-                  </div>
-                </span>
-              </span>
-            </p>
-            <p className="input-image-container">
-              <label
-                className={`choose-image${!!image ? " have-image" : ""}`}
-                htmlFor="imageInput"
-              >
-                {!!image ? (
-                  <img className="image" src={image} alt="" />
-                ) : (
-                  <div className="image-none">
-                    <h2>Chọn ảnh bìa</h2>
-                    <p>Hỗ trợ các file: jpeg, jpg, png</p>
-                    <FiUpload className={"icon-upload"} size={48} />
-                  </div>
-                )}
-              </label>
-              <input
-                type="file"
-                id="imageInput"
-                className="image-input"
-                accept="image/jpeg, image/png, image/jpg"
-                onChange={handleFileChange}
+                    </span>
+                  </span>
+                </p>
+                <p className="input-image-container">
+                  <label
+                    className={`choose-image${!!image ? " have-image" : ""}`}
+                    htmlFor="imageInput"
+                  >
+                    {!!image ? (
+                      <img className="image" src={image} alt="" />
+                    ) : (
+                      <div className="image-none">
+                        <h2>Chọn ảnh bìa</h2>
+                        <p>Hỗ trợ các file: jpeg, jpg, png</p>
+                        <FiUpload className={"icon-upload"} size={48} />
+                      </div>
+                    )}
+                  </label>
+                  <input
+                    type="file"
+                    id="imageInput"
+                    className="image-input"
+                    accept="image/jpeg, image/png, image/jpg"
+                    onChange={handleFileChange}
+                  />
+                </p>
+              </form>
+              <CKEditor
+                editor={ClassicEditor}
+                config={{
+                  removePlugins: ["MarkDown"],
+                  placeholder: "Nhập nội dung ở đây...",
+                  toolbar: { shouldNotGroupWhenFull: true },
+                  markdown: {
+                    enabled: true,
+                  },
+                }}
+                data={content}
+                onChange={handleEditorChange}
               />
-            </p>
-          </form>
-          <CKEditor
-            editor={ClassicEditor}
-            config={{
-              removePlugins: ["MarkDown"],
-              placeholder: "Nhập nội dung ở đây...",
-              toolbar: { shouldNotGroupWhenFull: true },
-              markdown: {
-                enabled: true,
-              },
-            }}
-            data={content}
-            onChange={handleEditorChange}
-          />
-        </div>
+            </div>
+          )}
+        {!post && !isFetchPost && (
+          <p className="not-found-text">Không có bài viết này</p>
+        )}
+        {(isFetchAllTags ||
+          isFetchCategories ||
+          isFetchPost ||
+          postLoading ||
+          categoriesLoading ||
+          allTagsLoading) && (
+          <div className="edit-post-content-skeleton grid-container">
+            <div className="btn-post-group">
+              <div className="btn-item-post skeleton"></div>
+              <div className="btn-item-post skeleton"></div>
+            </div>
+            <div className="input-container">
+              <div className="label-skeleton skeleton"></div>
+              <div className="input-skeleton skeleton"></div>
+            </div>
+            <div className="input-container">
+              <div className="label-skeleton skeleton"></div>
+              <div className="input-skeleton skeleton"></div>
+            </div>
+            <div className="input-container">
+              <div className="label-skeleton skeleton"></div>
+              <div className="input-skeleton skeleton"></div>
+            </div>
+            <div className="input-image-container skeleton"></div>
+            <div className="ckeditor-skeleton skeleton"></div>
+          </div>
+        )}
       </div>
     </div>
   );

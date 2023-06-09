@@ -101,7 +101,7 @@ const ChangeSocial = (props) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await apiUpdateUserProfile(props.user._id, "social", {
+      await apiUpdateUserProfile(props.user?._id, "social", {
         social: {
           facebook: facebook,
           instagram: instagram,
@@ -111,7 +111,7 @@ const ChangeSocial = (props) => {
       });
       setIsLoading(false);
       props.closeModal();
-      props.getUserByUserId(props.user._id);
+      props.getUserByUserId(props.user?._id);
       successAlert("Cập nhật thành công", "", 1500);
     } catch (error) {
       console.log(error);

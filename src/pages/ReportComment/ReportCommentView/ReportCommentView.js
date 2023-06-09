@@ -2,6 +2,8 @@ import React from "react";
 import "./ReportCommentView.scss";
 import { Button, Modal } from "antd";
 import { getCreatedAtString } from "../../../utils/convertTime";
+import { Link } from "react-router-dom";
+import { POST_PATH } from "../../../routes/routers.constant";
 
 const ReportCommentView = (props) => {
   return (
@@ -32,11 +34,25 @@ const ReportCommentView = (props) => {
             </div>
             <div className="email">
               <h3>Bài viết: </h3>
-              <p>{props.reportComment?.postId?.title}</p>
+              <Link
+                to={POST_PATH.VIEW.replace(
+                  ":id",
+                  props.reportComment?.postId?._id
+                )}
+                className="link-post"
+              >
+                {props.reportComment?.postId?.title}
+              </Link>
             </div>
             <div className="status">
               <h3>Trạng thái: </h3>
-              <p>
+              <p
+                className={`${
+                  props.reportComment?.status === "pending"
+                    ? "pending"
+                    : "resolved"
+                }`}
+              >
                 {props.reportComment?.status === "pending"
                   ? "Chưa giải quyết"
                   : "Đã giải quyết"}

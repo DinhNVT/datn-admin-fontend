@@ -56,10 +56,10 @@ const ChangeAvatar = (props) => {
         formData.append("image", avt);
       }
 
-      await apiChangeAvatarUser(props.user._id, status, formData);
+      await apiChangeAvatarUser(props.user?._id, status, formData);
       setIsLoading(false);
       props.closeModal();
-      props.getUserByUserId(props.user._id);
+      props.getUserByUserId(props.user?._id);
       successAlert("Cập nhật thành công", "", 1500);
     } catch (error) {
       console.log(error);

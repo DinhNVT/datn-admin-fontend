@@ -1,6 +1,10 @@
 @import "../../../assets/AppStyles/variables.scss";
 
 .account-edit-container {
+  .not-found-text {
+    text-align: center;
+  }
+  
   .header {
     margin: 0px 10px;
     padding: 20px 0;
@@ -64,6 +68,10 @@
           border-radius: 50%;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
           border: 1px solid $gray-900;
+
+          &.img-skeleton {
+            border: none;
+          }
         }
 
         .edit-icon {
@@ -150,6 +158,13 @@
           &:hover .icon-list svg {
             color: $gray-700;
           }
+        }
+
+        .info-item-skeleton{
+          height: 32px;
+          width: 100%;
+          margin-bottom: 20px;
+          border-radius: 4px;
         }
       }
     }
