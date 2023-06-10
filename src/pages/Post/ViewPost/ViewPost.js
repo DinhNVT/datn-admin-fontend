@@ -113,6 +113,7 @@ const ViewPost = () => {
     } finally {
       setIsFetchPost(false);
       setPostLoading(false);
+      setIsFetchPostComments(false);
     }
   }, [id]);
 
@@ -363,6 +364,9 @@ const ViewPost = () => {
               </div>
             </div>
           )}
+          {!post && !isFetchPost && (
+            <p className="not-found-text">Không có bài viết này</p>
+          )}
           {(isFetchPost || postLoading) && (
             <div className="post-content-skeleton">
               <div className="post-content-header">
@@ -511,6 +515,8 @@ const ViewPost = () => {
                   </form>
                 </div>
                 {!!postComments &&
+                  !isFetchPostComments &&
+                  !!post &&
                   postComments
                     .slice(0, visibleComments)
                     .map((comment, index) => (

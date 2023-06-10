@@ -8,6 +8,7 @@ import { getCreatedAtString } from "../../../utils/convertTime";
 import { RxCountdownTimer } from "react-icons/rx";
 import { FaRegComment } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
+import { POST_PATH } from "../../../routes/routers.constant";
 
 const CategoryView = (props) => {
   const [posts, setPosts] = useState([]);
@@ -78,13 +79,12 @@ const CategoryView = (props) => {
                       : "Bị chặn"}
                   </div>
                   <div className="blog-item-content">
-                    <Link target="_blank" to={`/post/${post.slug}`}>
+                    <Link to={POST_PATH.VIEW.replace(":id", post?._id)}>
                       <img src={post?.thumbnail_url} alt={post?.title} />
                     </Link>
                     <div className="blog-post-info">
                       <Link
-                        target="_blank"
-                        to={`/post/${post.slug}`}
+                        to={POST_PATH.VIEW.replace(":id", post?._id)}
                         className="title"
                       >
                         <h3>{truncateTitle(post.title, 85)}</h3>
