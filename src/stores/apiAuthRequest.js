@@ -7,34 +7,31 @@ export const loginFetch = async (user, dispatch, navigate) => {
   dispatch(isLoading());
   try {
     const response = await login(user);
-    if (response.data.roleId.name === "admin") {
-      dispatch(loginSuccess(response.data));
+    if (response?.data?.roleId?.name === "admin") {
+      dispatch(loginSuccess(response?.data));
       localStorage.setItem("accessToken", response?.data?.accessToken);
+      localStorage.setItem("refreshToken", response?.data?.refreshToken);
       navigate("/");
     } else {
       dispatch(loginFailed({ message: "you do not have access" }));
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     }
   } catch (error) {
-    dispatch(loginFailed(error.response.data));
+    dispatch(loginFailed(error.response?.data));
   }
 };
 
 // Create an async thunk for logging in
 export const checkRefreshTokenFetch = async (dispatch) => {
   try {
-    const response = await refreshToken();
+    const refreshTokenGet = await localStorage.getItem("refreshToken");
+    const response = await refreshToken({ refreshToken: refreshTokenGet });
     localStorage.setItem("accessToken", response.data.accessToken);
-    refreshUserFetch();
+    localStorage.setItem("refreshToken", response.data.refreshToken);
+    refreshUserFetch(dispatch);
   } catch (error) {
-    if (
-      error.response &&
-      error.response.status >= 400 &&
-      error.response.status < 500
-    ) {
-      localStorage.removeItem("accessToken");
-      dispatch(clearUser());
-    }
+    dispatch(clearUser());
     console.log(error);
   }
 };
@@ -45,9 +42,11 @@ export const logoutUserFetch = async (
   setIsLogoutLoading
 ) => {
   try {
-    await logoutUser();
+    const refreshTokenGet = await localStorage.getItem("refreshToken");
+    await logoutUser({ refreshToken: refreshTokenGet });
     dispatch(clearUser());
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     localStorage.clear();
     setIsLogoutLoading(false);
     navigate("/login");

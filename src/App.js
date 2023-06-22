@@ -8,7 +8,8 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     checkRefreshTokenFetch(dispatch);
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="App">
       <Routers />

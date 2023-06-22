@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
-import Google from "../../assets/images/google.png";
+// import Google from "../../assets/images/google.png";
 import Logo from "../../assets/images/circle_logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -60,18 +60,18 @@ const Login = () => {
           {error && (
             <div>
               <span className="error-text" aria-hidden="true">
-                {errorMessage.message === "username does not exist"
+                {errorMessage?.message === "user does not exist"
                   ? "Email không tồn tại"
-                  : errorMessage.message === "incorrect password"
+                  : errorMessage?.message === "incorrect password"
                   ? "Mật khẩu không chính xác"
-                  : errorMessage.message ===
+                  : errorMessage?.message ===
                     "You have not verified your email. Please check your email to verify your account."
                   ? "Bạn chưa xác minh email. Vui lòng kiểm tra lại email của bạn để xác minh."
-                  : errorMessage.message === "internal_server_error"
+                  : errorMessage?.message === "internal_server_error"
                   ? "Lỗi hệ thống. Vui lòng thử lại sau"
-                  : errorMessage.message === "you do not have access"
+                  : errorMessage?.message === "you do not have access"
                   ? "Bạn không phải là admin"
-                  : errorMessage.message === "User is already blocked"
+                  : errorMessage?.message === "User is already blocked"
                   ? "Tài khoản của bạn đã bị chặn"
                   : ""}
               </span>
@@ -146,10 +146,10 @@ const Login = () => {
             >
               {isLoading ? <Loader /> : "Đăng nhập"}
             </button>
-            <Link className={"google"}>
+            {/* <Link className={"google"}>
               <img src={Google} alt="" />
               Login with Google
-            </Link>
+            </Link> */}
           </div>
         </form>
       </div>
