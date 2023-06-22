@@ -12,8 +12,8 @@ import { validateEmail } from "../../utils/validates";
 import { clearErrorLogin } from "../../stores/authSlice";
 
 const Login = () => {
-  const [email, setEmail] = useState("gafastadmin1@yopmail.com");
-  const [password, setPassword] = useState("Admin123@");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [errorInput, setErrorInput] = useState({
     email: "",
