@@ -1,0 +1,44 @@
+@import "../../../assets/AppStyles/variables.scss";
+
+.video-view-container {
+  padding: 30px 10px;
+  font-size: 16px;
+  min-width: 600px;
+  font-weight: 500;
+  .title {
+    text-align: center;
+  }
+
+  .video-item {
+    padding: 16px;
+
+    .youtube-video {
+      width: 700px;
+      height: 400px;
+      border-radius: 4px;
+      display: block;
+    }
+
+    a {
+      width: 700px;
+      display: block;
+      margin-top: 8px;
+      min-height: 72px;
+      .title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        @include background-hover;
+
+        &:hover {
+          @include tag-a-hover;
+          color: $primary-normal;
+          background-size: 100% $primary-normal;
+        }
+      }
+    }
+  }
+}
