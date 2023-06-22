@@ -8,9 +8,6 @@ export const ACCOUNT_PATH = {
 
 export const CATEGORY_PATH = {
   LIST: "/categories",
-  // CREATE: "/events/create",
-  // EDIT: "/events/:eventId",
-  // DETAIL: "/events/detail"
 };
 
 export const POST_PATH = {
@@ -28,18 +25,6 @@ export const CONTACT_PATH = {
   LIST: "/contacts",
 };
 
-// export const CONGRESS_ELECTION_PATH = {
-//   CONGRESS_ELECTION: "/congress-election",
-//   CONGRESS_LIST: "/congress-election/congress-list",
-//   CANDIDATE_LIST: "/congress-election/candidate-list",
-//   VOTER_LIST: "/congress-election/voter-list"
-// }
-
-// export const FEEDBACK_PATH = {
-//   LIST: "/feedbacks",
-//   DETAIL: "/feedbacks/detail"
-// }
-
-// export const RECRUITMENT_PATH = {
-//   LIST: "/recruitments"
-// }
+export const VIDEO_YOUTUBE_PATH = {
+  LIST: "/youtubes",
+};

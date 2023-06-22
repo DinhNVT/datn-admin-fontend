@@ -8,12 +8,14 @@ import { MdOutlineCategory } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { AiOutlineContacts } from "react-icons/ai";
 import { GoReport } from "react-icons/go";
+import { RxVideo } from "react-icons/rx";
 import {
   ACCOUNT_PATH,
   CATEGORY_PATH,
   CONTACT_PATH,
   POST_PATH,
   REPORT_COMMENT_PATH,
+  VIDEO_YOUTUBE_PATH,
 } from "../../routes/routers.constant";
 import { useSelector } from "react-redux";
 import circleLogo from "../../assets/images/circle_logo.png";
@@ -119,6 +121,27 @@ const SideBar = () => {
                 className={`icon ${status ? "small" : "large"}`}
               />
               {status ? <span className="hover-icon">Liên hệ</span> : "Liên hệ"}
+            </Link>
+          </li>
+          <li
+            className={
+              location.pathname.includes(VIDEO_YOUTUBE_PATH.LIST)
+                ? "active"
+                : ""
+            }
+          >
+            <Link
+              className={`${status ? "small" : ""}`}
+              to={VIDEO_YOUTUBE_PATH.LIST}
+            >
+              <RxVideo
+                className={`icon ${status ? "small" : "large"}`}
+              />
+              {status ? (
+                <span className="hover-icon">Video Youtube</span>
+              ) : (
+                "Video Youtube"
+              )}
             </Link>
           </li>
         </ul>

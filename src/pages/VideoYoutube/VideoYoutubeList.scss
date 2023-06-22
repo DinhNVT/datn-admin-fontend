@@ -1,0 +1,252 @@
+@import "../../assets/AppStyles/variables.scss";
+
+.video-list-container {
+  .header {
+    margin: 0px 10px;
+    padding: 20px 0;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      border-radius: 8px;
+      padding: 20px 10px;
+      .right {
+        display: flex;
+        align-items: center;
+
+        .search {
+          position: relative;
+          margin-right: 10px;
+          .input-search {
+            @include input;
+            margin: 0;
+            border-radius: 500px;
+            padding-top: 24px;
+            padding-bottom: 24px;
+            min-width: 300px;
+            padding-right: 40px;
+          }
+
+          .icon-search {
+            position: absolute;
+            right: 16px;
+            font-size: 24px;
+            color: $gray-600;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+    }
+  }
+  .video-content {
+    display: flex;
+    align-items: flex-start;
+
+    .add-edit-video {
+      margin: 20px 10px;
+      padding: 20px 10px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      border-radius: 8px;
+      background-color: white;
+      overflow: hidden;
+      width: 30%;
+      min-height: 500px;
+
+      .title {
+        margin-bottom: 20px;
+      }
+
+      .input-container {
+        margin-bottom: 16px;
+        label {
+          @include label-input;
+
+          span {
+            color: $error-400;
+          }
+
+          .form-control-input {
+            display: block;
+            margin-top: 10px;
+            position: relative;
+
+            .input {
+              @include input;
+              margin-bottom: 10px;
+
+              &:focus {
+                box-shadow: $box-shadow-input;
+              }
+            }
+
+            .error-text {
+              @include error-text;
+            }
+          }
+        }
+
+        .input-text-area {
+          @include input-textarea;
+          width: 100%;
+          display: block;
+          margin-bottom: 8px;
+          margin-top: 8px;
+          border-radius: 5px;
+          min-height: 130px;
+          font-weight: 600;
+        }
+      }
+
+      .btn-video {
+        margin-top: 32px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+
+        a {
+          display: block;
+        }
+
+        .cancel {
+          @include button-black;
+          background-color: white;
+          border-color: $gray-600;
+          color: $gray-600;
+        }
+
+        .btn {
+          min-width: 100px;
+
+          &.btn-add {
+            @include button-black;
+            margin: 20px 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+              @include button-black-hover;
+            }
+          }
+        }
+      }
+    }
+
+    .table {
+      width: 70%;
+      margin: 20px 10px;
+      padding: 20px 10px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      border-radius: 8px;
+      background-color: white;
+      overflow: hidden;
+
+      .btn-list-action {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        .btn {
+          @include button-no-color;
+          padding: 8px 16px;
+          min-width: 100px;
+
+          &.btn-delete-all,
+          &.btn-block-all {
+            background-color: $error-400;
+            color: white;
+          }
+
+          &.btn-resolve-all {
+            background-color: $primary-normal;
+            color: white;
+          }
+        }
+      }
+
+      .action-list {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .icon {
+          font-size: 24px;
+          cursor: pointer;
+          width: 28px;
+          height: 28px;
+          padding: 4px;
+          border-radius: 2px;
+          transition: all 0.25s ease-in-out;
+
+          &.icon-edit {
+            color: $tag-color-4;
+
+            &:hover {
+              background-color: $icon-edit-color-hover;
+            }
+          }
+
+          &.icon-view {
+            color: $warning-400;
+
+            &:hover {
+              background-color: $warning-100;
+            }
+          }
+
+          &.icon-delete {
+            color: $error-600;
+
+            &:hover {
+              background-color: $error-200;
+            }
+          }
+        }
+      }
+
+      .ant-table-thead {
+        font-size: 16px;
+        tr {
+          .ant-table-cell {
+            background-color: $primary-light-hover;
+          }
+        }
+      }
+
+      .ant-table-tbody {
+        font-size: 16px;
+        .ant-table-cell {
+          .tag {
+            padding: 6px 16px;
+            border-radius: 500px;
+
+            &.active {
+              background-color: $success-100;
+              color: $success-800;
+            }
+
+            &.not-verify {
+              background-color: $warning-100;
+              color: $warning-800;
+            }
+
+            &.user {
+              background-color: #e6f4ff;
+              color: #0958d9;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import {
   LOGIN_PATH,
   POST_PATH,
   REPORT_COMMENT_PATH,
+  VIDEO_YOUTUBE_PATH,
 } from "./routers.constant";
 import Login from "../pages/Login/Login";
 import MainLayout from "../layouts/MainLayout/MainLayout";
@@ -24,6 +25,7 @@ import EditPost from "../pages/Post/EditPost/EditPost";
 import ViewPost from "../pages/Post/ViewPost/ViewPost";
 import ContactList from "../pages/Contact/ContactList";
 import ReportList from "../pages/ReportComment/ReportList";
+import VideoYoutubeList from "../pages/VideoYoutube/VideoYoutubeList";
 
 function Routers() {
   return (
@@ -145,6 +147,17 @@ function Routers() {
             <AuthenticatedRoutes>
               <MainLayout>
                 <ContactList />
+              </MainLayout>
+            </AuthenticatedRoutes>
+          }
+        />
+        <Route
+          path={VIDEO_YOUTUBE_PATH.LIST}
+          exact
+          element={
+            <AuthenticatedRoutes>
+              <MainLayout>
+                <VideoYoutubeList />
               </MainLayout>
             </AuthenticatedRoutes>
           }
