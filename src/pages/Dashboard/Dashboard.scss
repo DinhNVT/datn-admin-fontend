@@ -271,7 +271,7 @@
     }
 
     .right {
-      width: 50%;
+      width: 30%;
       background-color: white;
       box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.16);
       border-radius: 16px;
@@ -322,7 +322,7 @@
     }
 
     .left {
-      width: 50%;
+      width: 70%;
       background-color: white;
       box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.16);
       border-radius: 16px;
@@ -336,6 +336,9 @@
         .chart {
           width: 400px;
           height: 400px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
           .chart-skeleton {
             display: flex;

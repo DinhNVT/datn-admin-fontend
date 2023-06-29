@@ -209,8 +209,11 @@
                 overflow: hidden;
                 min-width: 300px;
                 text-align: left;
+                max-height: 400px;
+                overflow-y: auto;
                 ul {
                   li {
+                    list-style: none;
                     padding: 6px 10px;
                     display: block;
 
@@ -233,6 +236,7 @@
         position: relative;
 
         .choose-image {
+          background-color: white;
           border: 3px dashed $gray-400;
           border-radius: 8px;
           padding: 20px 40px;
@@ -343,5 +347,74 @@
         margin-right: auto;
       }
     }
+  }
+}
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  border-radius: 5px;
+  border: 1px solid $border-color !important;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+
+  &:focus {
+    border-color: $border-color;
+    box-shadow: $box-shadow-input;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  span,
+  p,
+  i,
+  b,
+  u,
+  s,
+  strong,
+  div,
+  sub,
+  sup,
+  a,
+  button,
+  table,
+  caption,
+  thead,
+  th,
+  td,
+  tr,
+  tfoot,
+  tbody,
+  ul,
+  li,
+  ol {
+    margin: revert;
+  }
+}
+
+.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
+.ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
+  border-radius: 5px;
+  border: 1px solid $border-color;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-width: 0;
+}
+
+.ck.ck-editor__main {
+  .ck-content {
+    ul,
+    ol {
+      padding: revert;
+    }
+  }
+}
+
+.ck.ck-sticky-panel {
+  .ck-sticky-panel__content_sticky {
+    margin-top: 100px;
   }
 }

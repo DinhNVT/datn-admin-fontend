@@ -12,6 +12,8 @@ import {
   apiGetPostCountByStatus,
   apiGetPostPerDay,
   apiGetUserCountByRole,
+  apiGetUserCountByStatus,
+  apiGetUserPerDay,
 } from "../../apis/dashboard";
 import { truncateTitle } from "../../utils/truncateString";
 import { getCreatedAtString } from "../../utils/convertTime";
@@ -51,6 +53,7 @@ const Dashboard = () => {
   const [latestUsersLoading, setLatestUsersLoading] = useState(false);
   const [isFetchLatestUsers, setIsFetchLatestUsers] = useState(true);
 
+  const [userPerDay, setUserPerDay] = useState([]);
   const [postPerDay, setPostPerDay] = useState([]);
   const [postPerDayLoading, setPostPerDayLoading] = useState(false);
   const [isFetchPostPerDay, setIsFetchPostPerDay] = useState(true);
@@ -62,6 +65,10 @@ const Dashboard = () => {
   const [userCount, setUserCount] = useState(null);
   const [userCountLoading, setUserCountLoading] = useState(false);
   const [isFetchUserCount, setIsFetchUserCount] = useState(true);
+
+  const [userCountStatus, setUserCountStatus] = useState(null);
+  const [userCountStatusLoading, setUserCountStatusLoading] = useState(false);
+  const [isFetchUserCountStatus, setIsFetchUserCountStatus] = useState(true);
 
   const getCountDashboardData = async () => {
     try {
@@ -92,8 +99,10 @@ const Dashboard = () => {
   const GetPostPerDayData = async () => {
     try {
       setPostPerDayLoading(true);
-      const resPostsPer = await apiGetPostPerDay(8);
+      const resPostsPer = await apiGetPostPerDay();
+      const resUsersPer = await apiGetUserPerDay();
       setPostPerDay(resPostsPer.data.data);
+      setUserPerDay(resUsersPer.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -105,7 +114,7 @@ const Dashboard = () => {
   const GetPostStatusData = async () => {
     try {
       setPostStatusLoading(true);
-      const resPostStatus = await apiGetPostCountByStatus(8);
+      const resPostStatus = await apiGetPostCountByStatus();
       setPostStatus(resPostStatus.data.data);
     } catch (error) {
       console.log(error);
@@ -128,12 +137,26 @@ const Dashboard = () => {
     }
   };
 
+  const getUserCountStatusData = async () => {
+    try {
+      setUserCountStatusLoading(true);
+      const resStatus = await apiGetUserCountByStatus();
+      setUserCountStatus(resStatus.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUserCountStatusLoading(false);
+      setIsFetchUserCountStatus(false);
+    }
+  };
+
   useEffect(() => {
     getCountDashboardData();
     GetLatestUsersData();
     GetPostPerDayData();
     GetPostStatusData();
     getUserCountData();
+    getUserCountStatusData();
   }, []);
 
   const options = {
@@ -144,7 +167,7 @@ const Dashboard = () => {
       },
       title: {
         display: true,
-        text: "Số lượng bài viết mỗi ngày",
+        text: "Số lượng bài viết và số lượng tài khoản mỗi ngày",
       },
     },
     // interaction: {
@@ -301,6 +324,17 @@ const Dashboard = () => {
                         pointRadius: 10,
                         pointHoverRadius: 15,
                       },
+                      {
+                        label: "Số lượng tài khoản",
+                        data: userPerDay.map((user) => user.count).reverse(),
+                        borderColor: "#E79F2A",
+                        backgroundColor: "#ffc15e",
+                        fill: false,
+                        tension: 0.4,
+                        pointStyle: "circle",
+                        pointRadius: 10,
+                        pointHoverRadius: 15,
+                      },
                       // {
                       //   label: "Dataset 2",
                       //   data: [1, 2, 3, 4, 9, 6, 7],
@@ -446,6 +480,43 @@ const Dashboard = () => {
           <h3 className="title">Phân tích tài khoản</h3>
           <div className="left-container">
             <div className="chart">
+              {userCountStatus && !isFetchUserCountStatus && (
+                <Doughnut
+                  width={300}
+                  height={300}
+                  type="doughnut"
+                  data={{
+                    labels: ["Đã xác minh", "Chưa xác minh", "Bị chặn"],
+                    datasets: [
+                      {
+                        label: "Số tài khoản",
+                        data: [
+                          userCountStatus?.verifiedNotBlocked,
+                          userCountStatus?.notVerifiedNotBlocked,
+                          userCountStatus?.blocked,
+                        ],
+                        backgroundColor: ["#00c491", "#fdb022", "#f97066"],
+                        borderColor: ["#02946D", "#BA7B08", "#D7291D"],
+                        borderWidth: 3,
+                      },
+                    ],
+                  }}
+                />
+              )}
+              {!userCountStatus && !isFetchUserCountStatus && (
+                <p className="not-found-text">Không có dữ liệu</p>
+              )}
+              {(userCountStatusLoading || isFetchUserCountStatus) && (
+                <div className="chart-skeleton">
+                  <div className="label">
+                    <div className="shape skeleton"></div>
+                    <div className="text skeleton"></div>
+                    <div className="shape skeleton"></div>
+                    <div className="text skeleton"></div>
+                  </div>
+                  <div className="circle skeleton"></div>
+                </div>
+              )}
               {userCount && !isFetchUserCount && (
                 <Doughnut
                   width={300}
